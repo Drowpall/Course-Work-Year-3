@@ -27,6 +27,10 @@ namespace Course_Work_v1
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show($"Data test: Operation: {Calculations.GetOperation_toString()}. \n" +
+                $"Number of operands: {Calculations.GetOperandsNum_toString()}. \n" +
+                $"Digit capacity: {Calculations.GetDigitCapacity_toString()}");
+
             this.NavigationService.Navigate(new Page4());
         }
     }

@@ -23,7 +23,6 @@ namespace Course_Work_v1
         public MainWindow()
         {
             InitializeComponent();
-
             Main.NavigationService.Navigate(new Page0());
         }
 

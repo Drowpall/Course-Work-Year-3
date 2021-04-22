@@ -19,44 +19,32 @@ namespace Course_Work_v1
     /// Interaction logic for Page0.xaml
     /// </summary>
     /// 
-    public enum Operation
-    {
-        Sum,
-        Sum2,
-        Mult,
-        Mult2
-    }
+
     public partial class Page0 : Page
     {
-        private Operation operation;
         public Page0()
         {
             InitializeComponent();
         }
 
-        public Operation getOperation()
-        {
-            return operation;
-        }
-
         private void operation_sum_Checked(object sender, RoutedEventArgs e)
         {
-            operation = Operation.Sum;
+            Calculations.SetOperation(Operation.Sum);
         }
 
         private void operation_mult_Checked(object sender, RoutedEventArgs e)
         {
-            operation = Operation.Mult;
+            Calculations.SetOperation(Operation.Mult);
         }
 
         private void operation_sum2_Checked(object sender, RoutedEventArgs e)
         {
-            operation = Operation.Sum2;
+            Calculations.SetOperation(Operation.Sum2);
         }
 
         private void operation_mult2_Checked(object sender, RoutedEventArgs e)
         {
-            operation = Operation.Mult2;
+            Calculations.SetOperation(Operation.Mult2);
         }
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)

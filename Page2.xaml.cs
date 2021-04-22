@@ -20,7 +20,6 @@ namespace Course_Work_v1
     /// </summary>
     public partial class Page2 : Page
     {
-        private int _lengthOfOperands;
         public Page2()
         {
             InitializeComponent();
@@ -28,19 +27,16 @@ namespace Course_Work_v1
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(lengthOfOperands.Text, out _lengthOfOperands) && _lengthOfOperands > 0)
+            if (Int32.TryParse(lengthOfOperands.Text, out int _lengthOfOperands) && _lengthOfOperands > 0)
             {
-                if(_lengthOfOperands > 0)
-                    this.NavigationService.Navigate(new Page3());
+                Calculations.SetDigitCapacity(_lengthOfOperands);
+                this.NavigationService.Navigate(new Page3());
             }
             else
             {
                 MessageBox.Show($"Invalid input. Given input: {lengthOfOperands.Text}. Please specify an integer instead.");
                 this.NavigationService.Navigate(new Page2());
             }
-
-            //MessageBox.Show($"Something went wrong... Given input: {lengthOfOperands.Text}. Please specify an accurate integer instead.");
-            //this.NavigationService.Navigate(new Page1());
         }
     }
 }
