@@ -30,7 +30,7 @@ namespace Course_Work_v1
             MessageBox.Show($"Data test: Operation: {Calculations.GetOperation_toString()}. \n" +
                 $"Number of operands: {Calculations.GetOperandsNum_toString()}. \n" +
                 $"Digit capacity: {Calculations.GetDigitCapacity_toString()}");
-
+            Calculations.DrawTruthTable();
             this.NavigationService.Navigate(new Page4());
         }
     }

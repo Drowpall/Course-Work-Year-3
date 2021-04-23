@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Course_Work_v1
 {
@@ -49,6 +50,52 @@ namespace Course_Work_v1
                     return "mult2";
                 default:
                     return "Error!";
+            }
+        }
+
+        public static void DrawTruthTable()
+        {
+            List<string> vars = new List<string>();
+            List<string> res = new List<string>();
+
+            for(int i = 0; i < digit_cap * operands_num; i++)
+            {
+                vars.Add($"X{i}");
+            }
+
+            //if (operation == Operation.Mult)
+            //{
+            for (int i = 0; i < 2 * digit_cap * operands_num; i++)
+            {
+                res.Add($"S{i}");
+            }
+            //}
+
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "Truthtable.txt")))
+            {
+                for (int i = 0; i < digit_cap * operands_num; i++)
+                {
+                    if ((i + 1) % digit_cap == 0)
+                    {
+                        outputFile.Write(vars[i] + "   ");
+                    }
+                    else
+                    {
+                        //outputFile.Write(res[i] + " ");
+                       outputFile.Write(vars[i] + "  ");
+                    }
+                }
+
+                //if (operation == Operation.Mult)
+                //{
+                for (int i = 0; i < 2 * digit_cap * operands_num; i++)
+                {
+                    outputFile.Write(res[i] + " ");
+                }
+                //}
+
             }
         }
 
