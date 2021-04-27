@@ -23,3 +23,5 @@ A:\Work\CSharp\WPF\Course_Work_v1\obj\Debug\Page3.g.cs
 A:\Work\CSharp\WPF\Course_Work_v1\obj\Debug\Page3.baml
 A:\Work\CSharp\WPF\Course_Work_v1\obj\Debug\Page4.g.cs
 A:\Work\CSharp\WPF\Course_Work_v1\obj\Debug\Page4.baml
+A:\Work\CSharp\WPF\Course_Work_v1\obj\Debug\Page2.5.g.cs
+A:\Work\CSharp\WPF\Course_Work_v1\obj\Debug\Page2.5.baml

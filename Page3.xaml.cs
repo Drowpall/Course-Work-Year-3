@@ -27,11 +27,33 @@ namespace Course_Work_v1
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show($"Data test: Operation: {Calculations.GetOperation_toString()}. \n" +
-                $"Number of operands: {Calculations.GetOperandsNum_toString()}. \n" +
-                $"Digit capacity: {Calculations.GetDigitCapacity_toString()}");
+            if(Calculations.GetOperation() == Operation.Sum2 || Calculations.GetOperation() == Operation.Mult2)
+            {
+                DisplayParametersMod();
+            }
+            else
+            {
+                DisplayParameters();
+            }
+
             Calculations.DrawTruthTable();
             this.NavigationService.Navigate(new Page4());
         }
+
+        private void DisplayParameters()
+        {
+            MessageBox.Show($"Data test: Operation: {Calculations.GetOperation_toString()}. \n" +
+            $"Number of operands: {Calculations.GetOperandsNum_toString()}. \n" +
+            $"Digit capacity: {Calculations.GetDigitCapacity_toString()} \n");
+        }
+
+        private void DisplayParametersMod()
+        {
+            MessageBox.Show($"Data test: Operation: {Calculations.GetOperation_toString()}. \n" +
+            $"Number of operands: {Calculations.GetOperandsNum_toString()}. \n" +
+            $"Digit capacity: {Calculations.GetDigitCapacity_toString()} \n" +
+            $"Operation module: {Calculations.GetOperationModule_toString()} \n");
+        }
+
     }
 }
