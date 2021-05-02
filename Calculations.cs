@@ -197,16 +197,16 @@ namespace Course_Work_v1
             switch (operation)
             {
                 case Operation.Sum:
-                    iteration_size = Convert.ToInt32(Math.Log((Math.Pow(2, digit_cap) - 1) * operands_num, 2)) + 1;
+                    iteration_size = Convert.ToInt32(Math.Ceiling(Math.Log((Math.Pow(2, digit_cap) - 1) * operands_num, 2)));
                     break;
                 case Operation.Sum2:
-                    iteration_size = digit_cap;
+                    iteration_size = Convert.ToInt32(Math.Ceiling(Math.Log(operation_module, 2)));
                     break;
                 case Operation.Mult:
-                    iteration_size = Convert.ToInt32(Math.Log(Math.Pow((Math.Pow(2, digit_cap) - 1), operands_num), 2)) + 1;            //fix
+                    iteration_size = Convert.ToInt32(Math.Ceiling(Math.Log(Math.Pow((Math.Pow(2, digit_cap) - 1), operands_num), 2)));
                     break;
                 case Operation.Mult2:
-                    iteration_size = digit_cap;
+                    iteration_size = Convert.ToInt32(Math.Ceiling(Math.Log(operation_module, 2)));
                     break;
                 default:
                     iteration_size = -1;
@@ -272,12 +272,9 @@ namespace Course_Work_v1
                     {
                         for (int m = 0; m < operands_num; m++)
                         {
-                            if(m == 0)
-                            {
-                                op_results[k] = op_values[k, m];
-                            }
-                            op_results[k] |= op_values[k, m];
+                            op_results[k] += op_values[k, m];
                         }
+                        op_results[k] = op_results[k] % operation_module;
                     }
                     break;
                 case Operation.Mult:
@@ -294,14 +291,13 @@ namespace Course_Work_v1
                 case Operation.Mult2:
                     for (int k = 0; k < dimension_rows; k++)
                     {
+                        op_results[k] = 1;
+
                         for (int m = 0; m < operands_num; m++)
                         {
-                            if (m == 0)
-                            {
-                                op_results[k] = op_values[k, m];
-                            }
-                            op_results[k] &= op_values[k, m];
+                            op_results[k] *= op_values[k, m];
                         }
+                        op_results[k] = op_results[k] % operation_module;
                     }
                     break;
                 default:
