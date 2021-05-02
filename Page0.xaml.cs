@@ -27,6 +27,16 @@ namespace Course_Work_v1
             InitializeComponent();
         }
 
+        private void SubmitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Page1());
+        }
+
+        private void operation_sum2_Checked(object sender, RoutedEventArgs e)
+        {
+            Calculations.SetOperation(Operation.Sum2);
+        }
+
         private void operation_sum_Checked(object sender, RoutedEventArgs e)
         {
             Calculations.SetOperation(Operation.Sum);
@@ -37,19 +47,9 @@ namespace Course_Work_v1
             Calculations.SetOperation(Operation.Mult);
         }
 
-        private void operation_sum2_Checked(object sender, RoutedEventArgs e)
-        {
-            Calculations.SetOperation(Operation.Sum2);
-        }
-
         private void operation_mult2_Checked(object sender, RoutedEventArgs e)
         {
             Calculations.SetOperation(Operation.Mult2);
-        }
-
-        private void SubmitButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new Page1());
         }
     }
 }

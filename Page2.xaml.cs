@@ -30,7 +30,14 @@ namespace Course_Work_v1
             if (Int32.TryParse(lengthOfOperands.Text, out int _lengthOfOperands) && _lengthOfOperands > 0)
             {
                 Calculations.SetDigitCapacity(_lengthOfOperands);
-                this.NavigationService.Navigate(new Page3());
+                if(Calculations.GetOperation() == Operation.Sum2 || Calculations.GetOperation() == Operation.Mult2)
+                {
+                    this.NavigationService.Navigate(new Page2_5());
+                }
+                else
+                {
+                    this.NavigationService.Navigate(new Page3());
+                }
             }
             else
             {

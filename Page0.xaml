@@ -31,15 +31,15 @@
             <TextBlock Grid.Column="1" Grid.Row="1" FontSize="65" FontFamily="Segoe UI Light" 
                    Text="Please, select an operation" Grid.ColumnSpan="4"
                    Margin="0,0,0,10" TextAlignment="Center"/>
-            <RadioButton x:Name="operation_sum" Content="Mod addition" ClickMode="Press" 
+            <RadioButton x:Name="operation_sum2" Content="Mod addition" ClickMode="Press" 
                      Grid.Column="1" Grid.Row="2"
-                     Margin="5,5,5,5" Checked="operation_sum_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
-            <RadioButton x:Name="operation_mult" Content="Addition" ClickMode="Press" 
-                     Grid.Column="1" Grid.Row="3"
-                     Margin="5,5,5,5" Checked="operation_mult_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
-            <RadioButton x:Name="operation_sum2" Content="Multiplication" ClickMode="Press" 
-                     Grid.Column="1" Grid.Row="4"
                      Margin="5,5,5,5" Checked="operation_sum2_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
+            <RadioButton x:Name="operation_sum" Content="Addition" ClickMode="Press" 
+                     Grid.Column="1" Grid.Row="3"
+                     Margin="5,5,5,5" Checked="operation_sum_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
+            <RadioButton x:Name="operation_mult" Content="Multiplication" ClickMode="Press" 
+                     Grid.Column="1" Grid.Row="4"
+                     Margin="5,5,5,5" Checked="operation_mult_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
             <RadioButton x:Name="operation_mult2" Content="Mod Multiplication" ClickMode="Press" 
                      Grid.Column="1" Grid.Row="5"
                      Margin="5,5,5,5" Checked="operation_mult2_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
