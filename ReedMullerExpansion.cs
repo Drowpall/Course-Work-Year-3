@@ -9,13 +9,15 @@ namespace Course_Work_v1
 {
     internal static class ReedMullerExpansion
     {
+        #region Array Declarations
         internal static int[,] binary_matrixT;
         internal static int[,] binary_matrixB;
         internal static int[,] binary_matrixZ;
         internal static int[,] binary_matrixM;
 
         internal static bool[,] truth_table_results = new bool[Calculations.GetDimensionRows(), Calculations.GetDimensionResCols()];
-
+        #endregion
+        #region Construct Matrices
         internal static void ConstructBinaryMatrixB(int col)
         {
             int N = Calculations.GetDimensionRows();
@@ -25,14 +27,11 @@ namespace Course_Work_v1
                 f_vector[i] = Convert.ToInt32(truth_table_results[i, col]);
             }
 
-
         }
-
         internal static void ConstructBinaryMatrixM()
         {
 
         }
-
         internal static void ConstructBinaryMatrixZ()
         {
             int N = (int)Math.Log(Calculations.GetDimensionRows(), 4);
@@ -88,8 +87,8 @@ namespace Course_Work_v1
             }
 
         }
-
-
+        #endregion
+        #region Calculations
         internal static int[,] KroneckerProduct(int[,] left, int[,] right)
         {
             (int lRows, int lColumns) = (left.GetLength(0), left.GetLength(1));
@@ -110,7 +109,8 @@ namespace Course_Work_v1
                 }
             }
         }
-
+        #endregion
+        #region Setters
         internal static void SetBinaryMatrixT(int[,] matrix)
         {
             binary_matrixT = matrix;
@@ -132,8 +132,6 @@ namespace Course_Work_v1
         {
             truth_table_results = res_values;
         }
+        #endregion
     }
-
-
-
 }
