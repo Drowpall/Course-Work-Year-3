@@ -27,7 +27,8 @@ namespace Course_Work_v1
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            ReedMullerExpansion.ConstructBinaryMatrixT();
+            //  ReedMullerExpansion.ConstructBinaryMatrixT();
+            ReedMullerExpansion.EvaluatePolynomial();
             this.NavigationService.Navigate(new Page5());
         }
     }
