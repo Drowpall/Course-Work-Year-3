@@ -16,19 +16,13 @@ using System.Windows.Shapes;
 namespace Course_Work_v1
 {
     /// <summary>
-    /// Interaction logic for Page4.xaml
+    /// Interaction logic for Page5.xaml
     /// </summary>
-    public partial class Page4 : Page
+    public partial class Page5 : Page
     {
-        public Page4()
+        public Page5()
         {
             InitializeComponent();
-        }
-
-        private void CalculateButton_Click(object sender, RoutedEventArgs e)
-        {
-            ReedMullerExpansion.ConstructBinaryMatrixT();
-            this.NavigationService.Navigate(new Page5());
         }
     }
 }

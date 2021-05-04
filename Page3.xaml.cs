@@ -42,17 +42,17 @@ namespace Course_Work_v1
 
         private void DisplayParameters()
         {
-            MessageBox.Show($"Data test: Operation: {Calculations.GetOperation_toString()}. \n" +
-            $"Number of operands: {Calculations.GetOperandsNum_toString()}. \n" +
-            $"Digit capacity: {Calculations.GetDigitCapacity_toString()} \n");
+            MessageBox.Show($"Data test: Operation: {Calculations.Operation_toString()}. \n" +
+            $"Number of operands: {Calculations.OperandsNum_toString()}. \n" +
+            $"Digit capacity: {Calculations.DigitCapacity_toString()} \n");
         }
 
         private void DisplayParametersMod()
         {
-            MessageBox.Show($"Data test: Operation: {Calculations.GetOperation_toString()}. \n" +
-            $"Number of operands: {Calculations.GetOperandsNum_toString()}. \n" +
-            $"Digit capacity: {Calculations.GetDigitCapacity_toString()} \n" +
-            $"Operation module: {Calculations.GetOperationModule_toString()} \n");
+            MessageBox.Show($"Data test: Operation: {Calculations.Operation_toString()}. \n" +
+            $"Number of operands: {Calculations.OperandsNum_toString()}. \n" +
+            $"Digit capacity: {Calculations.DigitCapacity_toString()} \n" +
+            $"Operation module: {Calculations.OperationModule_toString()} \n");
         }
 
     }

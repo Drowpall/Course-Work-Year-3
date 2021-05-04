@@ -21,7 +21,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Button x:Name="SubmitButton" Width="230" Content="Calculate"
+        <Button x:Name="SubmitButton" Width="230" Content="Generate"
                 Grid.Column="2" Grid.Row="1"
                 Margin="10,10,10,5" FontFamily="Segoe UI Light" FontSize="22" 
                 Click="CalculateButton_Click" HorizontalAlignment="Left" />
