@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("truthtable.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("truthtable2.txt")]
 
 
