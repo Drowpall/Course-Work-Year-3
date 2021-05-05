@@ -8,6 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("polynomials.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("truthtable.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("truthtable1.txt")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("truthtable2.txt")]
 
 

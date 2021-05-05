@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+
 namespace Course_Work_v1
 {
     public enum Operation
@@ -62,6 +63,10 @@ namespace Course_Work_v1
             {
                 case Operation.Sum:
                     iteration_size = Convert.ToInt32(Math.Ceiling(Math.Log((Math.Pow(2, digit_cap) - 1) * operands_num, 2)));
+                    if(digit_cap == 1)
+                    {
+                        iteration_size += 1;
+                    }
                     break;
                 case Operation.Sum2:
                     iteration_size = Convert.ToInt32(Math.Ceiling(Math.Log(operation_module, 2)));
@@ -381,15 +386,14 @@ namespace Course_Work_v1
             FillMatrix_VarValues(ref var_values);
             FillMatrix_ResValues(ref res_values, ref var_values, ref module_lines);
 
-            string docPath = "A:\\Work\\CSharp\\WPF\\Course_Work_v1\\";
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "Truthtable.txt")))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable.txt")))
             {
                 WriteFile_TruthTable_VarNames(outputFile, ref vars);
                 WriteFile_TruthTable_ResNames(outputFile, ref res);
                 WriteFile_TruthTable_Values(outputFile, ref var_values, ref res_values);
             }
 
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "Truthtable1.txt")))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable1.txt")))
             {
                 WriteFile_UserVariables(outputFile);
                 WriteFile_TableValues(outputFile, ref var_values, ref res_values);
@@ -397,7 +401,7 @@ namespace Course_Work_v1
 
             if(operation == Operation.Mult2 || operation == Operation.Sum2)
             {
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "Truthtable2.txt")))
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable2.txt")))
                 {
                     WriteFile_UserVariables(outputFile);
                     WriteFile_TableValues_ModuleOperation(outputFile, ref var_values, ref res_values, ref module_lines);
