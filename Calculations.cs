@@ -17,6 +17,10 @@ namespace Course_Work_v1
     }
     public static class Calculations
     {
+        /// <summary>
+        ///     
+        /// </summary>
+        
         #region Variable Declarations
         private static Operation operation;
         private static int operands_num;
