@@ -27,7 +27,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Please, specify the operation module."
+        <TextBlock Text="Please, specify the Operation module."
                    Grid.Column="1" Grid.Row="1" 
                    FontFamily="Segoe UI Light" FontSize="36"
                    Grid.ColumnSpan="2"/>
