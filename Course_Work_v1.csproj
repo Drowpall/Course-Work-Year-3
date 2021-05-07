@@ -147,11 +147,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TextOutput\Polynomials.txt" />
-    <Resource Include="TextOutput\TruthTable.txt" />
-    <Resource Include="TextOutput\Truthtable1.txt" />
-    <Resource Include="TextOutput\Truthtable2.txt" />
+    <Folder Include="TextOutput\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
