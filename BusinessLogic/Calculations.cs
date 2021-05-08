@@ -44,7 +44,7 @@ namespace Course_Work_v1.BusinessLogic
 
         #region Calculations
 
-        private static void CalculateOperationValues(ref int[,] op_values, ref bool[,] var_values)
+        private static void CalculateOperationValues(int[,] op_values, bool[,] var_values)
         {
             int value_counter;
             for (int i = 0; i < DimensionRows; i++)
@@ -61,7 +61,7 @@ namespace Course_Work_v1.BusinessLogic
                 }
             }
         }
-        private static void CalculateOperationResults(ref int[,] op_values, ref int[] op_results)
+        private static void CalculateOperationResults(int[,] op_values, int[] op_results)
         {
             switch (Operation)
             {
@@ -111,7 +111,7 @@ namespace Course_Work_v1.BusinessLogic
                     break;
             }
         }
-        private static void CalculateModuleLines(ref int[,] op_values, ref bool[] module_lines)
+        private static void CalculateModuleLines(int[,] op_values, bool[] module_lines)
         {
             for (int i = 0; i < DimensionRows; i++)
             {
@@ -127,21 +127,21 @@ namespace Course_Work_v1.BusinessLogic
         }
         #endregion
         #region FillArrays
-        private static void FillList_ResNames(ref List<string> res)
+        private static void FillList_ResNames(List<string> res)
         {
             for (int i = 0; i < IterationSize; i++)
             {
                 res.Add($"S{i}");
             }
         }
-        private static void FillList_VarNames(ref List<string> vars)
+        private static void FillList_VarNames(List<string> vars)
         {
             for (int i = 0; i < DigitCapacity * OperandsNumber; i++)
             {
                 vars.Add($"X{i}");
             }
         }
-        private static void FillMatrix_VarValues(ref bool[,] var_values)
+        private static void FillMatrix_VarValues(bool[,] var_values)
         {
             int row_value = 0;
             for (int i = 0; i < DimensionRows; i++)
@@ -153,15 +153,15 @@ namespace Course_Work_v1.BusinessLogic
                 row_value++;
             }
         }
-        private static void FillMatrix_ResValues(ref bool[,] res_values, ref bool[,] var_values, ref bool[] module_lines)
+        private static void FillMatrix_ResValues(bool[,] res_values, bool[,] var_values, bool[] module_lines)
         {
             int[,] op_values = new int[DimensionRows, OperandsNumber];
-            CalculateOperationValues(ref op_values, ref var_values);
+            CalculateOperationValues(op_values, var_values);
             int[] op_results = new int[DimensionRows];
-            CalculateOperationResults(ref op_values, ref op_results);
+            CalculateOperationResults(op_values, op_results);
 
             if (Operation == Operation.Mult2 || Operation == Operation.Sum2)
-                CalculateModuleLines(ref op_values, ref module_lines);
+                CalculateModuleLines(op_values, module_lines);
 
             for (int i = 0; i < DimensionRows; i++)
             {
@@ -175,7 +175,7 @@ namespace Course_Work_v1.BusinessLogic
         }
         #endregion
         #region WriteFileDefault
-        private static void WriteFile_TruthTable_VarNames(StreamWriter outputFile, ref List<string> vars)
+        private static void WriteFile_TruthTable_VarNames(StreamWriter outputFile, List<string> vars)
         {
             for (int i = 0; i < DigitCapacity * OperandsNumber; i++)
             {
@@ -189,7 +189,7 @@ namespace Course_Work_v1.BusinessLogic
                 }
             }
         }
-        private static void WriteFile_TruthTable_ResNames(StreamWriter outputFile, ref List<string> res)
+        private static void WriteFile_TruthTable_ResNames(StreamWriter outputFile, List<string> res)
         {
             for (int i = 0; i < IterationSize; i++)
             {
@@ -197,7 +197,7 @@ namespace Course_Work_v1.BusinessLogic
             }
             outputFile.WriteLine();
         }
-        private static void WriteFile_TruthTable_Values(StreamWriter outputFile, ref bool[,] var_values, ref bool[,] res_values)
+        private static void WriteFile_TruthTable_Values(StreamWriter outputFile, bool[,] var_values, bool[,] res_values)
         {
             for (int i = 0; i < DimensionRows; i++)
             {
@@ -240,7 +240,7 @@ namespace Course_Work_v1.BusinessLogic
             outputFile.WriteLine($".o {DimensionResultColumns}");
             outputFile.WriteLine($".p {DimensionRows}");
         }
-        private static void WriteFile_TableValues(StreamWriter outputFile, ref bool[,] var_values, ref bool[,] res_values)
+        private static void WriteFile_TableValues(StreamWriter outputFile, bool[,] var_values, bool[,] res_values)
         {
             for (int i = 0; i < DimensionRows; i++)
             {
@@ -260,7 +260,7 @@ namespace Course_Work_v1.BusinessLogic
             }
             outputFile.WriteLine($".e");
         }
-        private static void WriteFile_TableValues_ModuleOperation(StreamWriter outputFile, ref bool[,] var_values, ref bool[,] res_values, ref bool[] module_lines)
+        private static void WriteFile_TableValues_ModuleOperation(StreamWriter outputFile, bool[,] var_values, bool[,] res_values, bool[] module_lines)
         {
             for (int i = 0; i < DimensionRows; i++)
             {
@@ -301,22 +301,22 @@ namespace Course_Work_v1.BusinessLogic
             bool[,] res_values = new bool[DimensionRows, DimensionResultColumns];
             bool[] module_lines = new bool[DimensionRows];
 
-            FillList_VarNames(ref vars);
-            FillList_ResNames(ref res);
-            FillMatrix_VarValues(ref var_values);
-            FillMatrix_ResValues(ref res_values, ref var_values, ref module_lines);
+            FillList_VarNames(vars);
+            FillList_ResNames(res);
+            FillMatrix_VarValues(var_values);
+            FillMatrix_ResValues(res_values, var_values, module_lines);
 
             using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable.txt")))
             {
-                WriteFile_TruthTable_VarNames(outputFile, ref vars);
-                WriteFile_TruthTable_ResNames(outputFile, ref res);
-                WriteFile_TruthTable_Values(outputFile, ref var_values, ref res_values);
+                WriteFile_TruthTable_VarNames(outputFile, vars);
+                WriteFile_TruthTable_ResNames(outputFile, res);
+                WriteFile_TruthTable_Values(outputFile, var_values, res_values);
             }
 
             using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable1.txt")))
             {
                 WriteFile_UserVariables(outputFile);
-                WriteFile_TableValues(outputFile, ref var_values, ref res_values);
+                WriteFile_TableValues(outputFile, var_values, res_values);
             }
 
             if(Operation == Operation.Mult2 || Operation == Operation.Sum2)
@@ -324,7 +324,7 @@ namespace Course_Work_v1.BusinessLogic
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable2.txt")))
                 {
                     WriteFile_UserVariables(outputFile);
-                    WriteFile_TableValues_ModuleOperation(outputFile, ref var_values, ref res_values, ref module_lines);
+                    WriteFile_TableValues_ModuleOperation(outputFile, var_values, res_values, module_lines);
                 }
             }    
 
