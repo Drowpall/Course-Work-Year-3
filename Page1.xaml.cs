@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Course_Work_v1.BusinessLogic;
+using Ninject;
 
 namespace Course_Work_v1
 {
-    /// <summary>
-    /// Interaction logic for Page1.xaml
-    /// </summary>
     public partial class Page1 : Page
     {
-        public Page1()
+        private readonly IKernel kernel;
+        public Page1(IKernel kernel)
         {
+            this.kernel = kernel;
             InitializeComponent();
         }
 
@@ -31,12 +31,12 @@ namespace Course_Work_v1
             if (Int32.TryParse(numberOfOperands.Text, out int _numberOfOperands) && _numberOfOperands > 0)
             {
                 Calculations.OperandsNumber = _numberOfOperands;
-                this.NavigationService.Navigate(new Page2());
+                this.NavigationService.Navigate(kernel.Get<Page2>());
             }
             else
             {
                 MessageBox.Show($"Invalid input. Given input: {numberOfOperands.Text}. Please specify an integer instead.");
-                this.NavigationService.Navigate(new Page1());
+                this.NavigationService.Navigate(kernel.Get<Page1>());
             }
         }
     }

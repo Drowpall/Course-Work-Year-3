@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Course_Work_v1
 {
-    /// <summary>
-    /// Interaction logic for Page5.xaml
-    /// </summary>
     public partial class Page5 : Page
     {
         public Page5()

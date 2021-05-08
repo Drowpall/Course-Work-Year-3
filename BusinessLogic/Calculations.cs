@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Course_Work_v1.BusinessLogic.Models;
+using DAL.Contracts;
+using DAL.Models;
 
 namespace Course_Work_v1.BusinessLogic
 {
 
     public static class Calculations
     {
+        public static IOperationRepository OperationRepository { get; set; }
+
         #region Properties
 
-        public static Operation Operation { get; set; }
+        private static Operation Operation => OperationRepository.GetOperation();
 
         public static int OperandsNumber { get; set; }
 

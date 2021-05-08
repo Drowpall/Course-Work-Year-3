@@ -2,16 +2,16 @@
 using System.Windows;
 using System.Windows.Controls;
 using Course_Work_v1.BusinessLogic;
+using Ninject;
 
 namespace Course_Work_v1
 {
-    /// <summary>
-    /// Interaction logic for Page5.xaml
-    /// </summary>
     public partial class Page2_5 : Page
     {
-        public Page2_5()
+        private readonly IKernel kernel;
+        public Page2_5(IKernel kernel)
         {
+            this.kernel = kernel;
             InitializeComponent();
         }
 
@@ -20,12 +20,12 @@ namespace Course_Work_v1
             if (Int32.TryParse(operationModule.Text, out int _operationModule) && _operationModule > 1)
             {
                 Calculations.OperationModule = _operationModule;
-                this.NavigationService.Navigate(new Page3());
+                this.NavigationService.Navigate(kernel.Get<Page3>());
             }
             else
             {
                 MessageBox.Show($"Invalid input. Given input: {operationModule.Text}. Please specify an integer (>1) instead.");
-                this.NavigationService.Navigate(new Page2_5());
+                this.NavigationService.Navigate(kernel.Get<Page2_5>());
             }
         }
     }
