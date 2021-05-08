@@ -45,8 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IDimensionsService.cs" />
+    <Compile Include="Contracts\IOutputService.cs" />
     <Compile Include="Contracts\IOperationResultsCalculator.cs" />
     <Compile Include="Contracts\ITruthTableCalculator.cs" />
+    <Compile Include="Models\Globals.cs" />
     <Compile Include="Models\UserParameters.cs" />
     <Compile Include="Models\Dimensions.cs" />
     <Compile Include="Models\TruthTable.cs" />
@@ -55,6 +57,8 @@
     <Compile Include="Services\CalculateOperationResults\CalculateMultOperationResult.cs" />
     <Compile Include="Services\CalculateOperationResults\CalculateSum2OperationResuls.cs" />
     <Compile Include="Services\CalculateOperationResults\CalculateSumOperationResult.cs" />
+    <Compile Include="Services\Extensions.cs" />
+    <Compile Include="Services\FileOutputService.cs" />
     <Compile Include="Services\DimensionsService.cs" />
     <Compile Include="Services\TruthTableCalculator.cs" />
   </ItemGroup>

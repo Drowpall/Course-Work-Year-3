@@ -4,6 +4,6 @@ namespace BLL.Contracts
 {
     public interface IDimensionsService
     {
-        Dimensions GetDimensions();
+        Dimensions GetDimensions(UserParameters userParameters);
     }
 }

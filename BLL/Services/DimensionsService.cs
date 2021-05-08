@@ -8,28 +8,12 @@ namespace BLL.Services
 {
     public class DimensionsService : IDimensionsService
     {
-        private readonly IOperandsNumberRepository operandsNumberRepository;
-        private readonly IOperationModuleRepository operationModuleRepository;
-        private readonly IDigitCapacityRepository digitCapacityRepository;
-        private readonly IOperationRepository operationRepository;
-
-        public DimensionsService(IOperandsNumberRepository operandsNumberRepository,
-                                 IOperationModuleRepository operationModuleRepository, 
-                                 IDigitCapacityRepository digitCapacityRepository,
-                                 IOperationRepository operationRepository)
+        public Dimensions GetDimensions(UserParameters userParameters)
         {
-            this.operandsNumberRepository = operandsNumberRepository;
-            this.operationModuleRepository = operationModuleRepository;
-            this.digitCapacityRepository = digitCapacityRepository;
-            this.operationRepository = operationRepository;
-        }
-
-        public Dimensions GetDimensions()
-        {
-            var operation = operationRepository.GetOperation();
-            var digitCapacity = digitCapacityRepository.GetDigitCapacity();
-            var operandsNumber = operandsNumberRepository.GetOperandsNumber();
-            var operationModule = operationModuleRepository.GetOperationModule();
+            var operation = userParameters.Operation;
+            var digitCapacity = userParameters.DigitCapacity;
+            var operandsNumber = userParameters.OperandsNumber;
+            var operationModule = userParameters.OperationModule;
 
             var iterationSize = GetIterationSize(operation, digitCapacity, operandsNumber, operationModule);
             var dimensionRows = (int)Math.Pow(2, operandsNumber * digitCapacity);

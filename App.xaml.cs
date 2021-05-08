@@ -29,12 +29,15 @@ namespace Course_Work_v1
         private void ConfigureDAL()
         {
             container.Bind<IOperationRepository, IDigitCapacityRepository, IOperandsNumberRepository, IOperationModuleRepository>().To<Repository>().InSingletonScope();
+            container.Bind<ITruthTableRepository>().To<TruthTableRepository>().InSingletonScope();
         }
 
         private void ConfigureBLL()
         {
             container.Bind<IDimensionsService>().To<DimensionsService>().InSingletonScope();
             container.Bind<ITruthTableCalculator>().To<TruthTableCalculator>().InSingletonScope();
+            container.Bind<IOutputService>().To<FileOutputService>().InSingletonScope();
+
             container.Bind<IOperationResultsCalculator>().To<CalculateMultOperationResult>().InSingletonScope();
             container.Bind<IOperationResultsCalculator>().To<CalculateMult2OperationResult>().InSingletonScope();
             container.Bind<IOperationResultsCalculator>().To<CalculateSumOperationResult>().InSingletonScope();
@@ -60,6 +63,7 @@ namespace Course_Work_v1
             Calculations.OperationModuleRepository = container.Get<IOperationModuleRepository>();
             Calculations.DimensionsService = container.Get<IDimensionsService>();
             Calculations.TruthTableCalculator = container.Get<ITruthTableCalculator>();
+            Calculations.OutputService = container.Get<IOutputService>();
 
             Current.MainWindow = this.container.Get<MainWindow>();
         }
