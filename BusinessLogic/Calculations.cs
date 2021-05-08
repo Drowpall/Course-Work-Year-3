@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using BLL.Contracts;
 using DAL.Contracts;
 using DAL.Models;
 
 namespace Course_Work_v1.BusinessLogic
 {
-
     public static class Calculations
     {
         public static IOperationRepository OperationRepository { get; set; }
@@ -14,12 +14,15 @@ namespace Course_Work_v1.BusinessLogic
         public static IOperandsNumberRepository OperandsNumberRepository { get; set; }
         public static IOperationModuleRepository OperationModuleRepository { get; set; }
 
+        public static IDimensionsService DimensionsService { get; set; }
+
         #region Properties
 
         private static Operation Operation => OperationRepository.GetOperation();
         private static int OperandsNumber => OperandsNumberRepository.GetOperandsNumber();
         private static int DigitCapacity => DigitCapacityRepository.GetDigitCapacity();
         private static int OperationModule => OperationModuleRepository.GetOperationModule();
+
         private static int IterationSize { get; set; }
 
         public static int DimensionRows { get; set; }
@@ -31,43 +34,6 @@ namespace Course_Work_v1.BusinessLogic
         #endregion
 
         #region Getters Logic
-
-        public static void GetIterationSize()
-        {
-            switch (Operation)
-            {
-                case Operation.Sum:
-                    IterationSize = Convert.ToInt32(Math.Ceiling(Math.Log((Math.Pow(2, DigitCapacity) - 1) * OperandsNumber, 2)));
-                    if(DigitCapacity == 1)
-                    {
-                        IterationSize += 1;
-                    }
-                    break;
-                case Operation.Sum2:
-                    IterationSize = Convert.ToInt32(Math.Ceiling(Math.Log(OperationModule, 2)));
-                    break;
-                case Operation.Mult:
-                    IterationSize = Convert.ToInt32(Math.Ceiling(Math.Log(Math.Pow((Math.Pow(2, DigitCapacity) - 1), OperandsNumber), 2)));
-                    break;
-                case Operation.Mult2:
-                    IterationSize = Convert.ToInt32(Math.Ceiling(Math.Log(OperationModule, 2)));
-                    break;
-                default:
-                    IterationSize = -1;
-                    break;
-            }
-        }
-
-        private static void GetTableDimensions()
-        {
-            GetIterationSize();
-
-            DimensionRows = (int)Math.Pow(2, OperandsNumber * DigitCapacity);
-
-            DimensionVariablesColumns = DigitCapacity * OperandsNumber;
-
-            DimensionResultColumns = IterationSize;
-        }
 
         private static bool GetRightNthBit(int val, int n)
         {
@@ -323,7 +289,11 @@ namespace Course_Work_v1.BusinessLogic
         #region Main
         internal static void DrawTruthTable()
         {
-            GetTableDimensions();
+            var dimensions = DimensionsService.GetDimensions();
+            IterationSize = dimensions.IterationSize;
+            DimensionRows = dimensions.DimensionRows;
+            DimensionResultColumns = dimensions.DimensionResultColumns;
+            DimensionVariablesColumns = dimensions.DimensionVariablesColumns;
 
             List<string> vars = new List<string>();
             List<string> res = new List<string>();

@@ -150,11 +150,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BusinessLogic\Contract\" />
-    <Folder Include="BusinessLogic\Models\" />
-    <Folder Include="BusinessLogic\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="TextOutput\Polynomials.txt" />
     <Resource Include="TextOutput\Truthtable.txt" />
@@ -162,6 +158,10 @@
     <Resource Include="TextOutput\Truthtable2.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{7b86b57f-6db3-4937-bc34-7d8c5378743c}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{3d563149-8a26-4d41-ab01-3c4dbb02955a}</Project>
       <Name>DAL</Name>

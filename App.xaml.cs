@@ -1,13 +1,9 @@
-﻿using Course_Work_v1.BusinessLogic;
+﻿using BLL.Contracts;
+using BLL.Services;
+using Course_Work_v1.BusinessLogic;
 using DAL.Contracts;
 using DAL.Services;
 using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Course_Work_v1
@@ -19,15 +15,28 @@ namespace Course_Work_v1
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            ConfigureContainer();
+
+            this.container = new StandardKernel();
+            ConfigureDAL();
+            ConfigureBLL();
+            ConfigurePresentation();
+
             ComposeObjects();
             Current.MainWindow.Show();
         }
 
-        private void ConfigureContainer()
+        private void ConfigureDAL()
         {
-            this.container = new StandardKernel();
             container.Bind<IOperationRepository, IDigitCapacityRepository, IOperandsNumberRepository, IOperationModuleRepository>().To<Repository>().InSingletonScope();
+        }
+
+        private void ConfigureBLL()
+        {
+            container.Bind<IDimensionsService>().To<DimensionsService>().InSingletonScope();
+        }
+
+        private void ConfigurePresentation()
+        {
             container.Bind<Page0>().ToSelf().InTransientScope();
             container.Bind<Page1>().ToSelf().InTransientScope();
             container.Bind<Page2>().ToSelf().InTransientScope();
@@ -43,6 +52,8 @@ namespace Course_Work_v1
             Calculations.DigitCapacityRepository = container.Get<IDigitCapacityRepository>();
             Calculations.OperandsNumberRepository = container.Get<IOperandsNumberRepository>();
             Calculations.OperationModuleRepository = container.Get<IOperationModuleRepository>();
+            Calculations.DimensionsService = container.Get<IDimensionsService>();
+
             Current.MainWindow = this.container.Get<MainWindow>();
         }
     }
