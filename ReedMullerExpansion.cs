@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Course_Work_v1.BusinessLogic;
 using static System.Linq.Enumerable;
 
 namespace Course_Work_v1
@@ -40,7 +41,7 @@ namespace Course_Work_v1
         private static int[,] binary_matrixZ;
         
 
-        internal static bool[,] truth_table_results = new bool[Calculations.GetDimensionRows(), Calculations.GetDimensionResCols()];
+        internal static bool[,] truth_table_results = new bool[Calculations.DimensionRows, Calculations.DimensionResultColumns];
         #endregion
         #region Matrices Construction
         internal static void ConstructBinaryMatricesB()
@@ -257,7 +258,7 @@ namespace Course_Work_v1
         #region Main
         internal static void EvaluatePolynomial()
         {
-            SetDimension(Calculations.GetDimensionRows(), Calculations.GetDimensionResCols());
+            SetDimension(Calculations.DimensionRows, Calculations.DimensionResultColumns);
             ConstructBinaryMatrixZ();
             ConstructBinaryMatricesB();
             ConstructBinaryMatricesM();

@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessLogic\Models\Operation.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Page5.xaml.cs">
       <DependentUpon>Page5.xaml</DependentUpon>
@@ -68,7 +69,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Calculations.cs" />
+    <Compile Include="BusinessLogic\Calculations.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -147,7 +148,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="TextOutput\" />
+    <Folder Include="BusinessLogic\Contract\" />
+    <Folder Include="BusinessLogic\Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TextOutput\Polynomials.txt" />
+    <Resource Include="TextOutput\Truthtable.txt" />
+    <Resource Include="TextOutput\Truthtable1.txt" />
+    <Resource Include="TextOutput\Truthtable2.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Course_Work_v1.BusinessLogic;
 
 namespace Course_Work_v1
 {
@@ -29,7 +30,7 @@ namespace Course_Work_v1
         {
             if (Int32.TryParse(numberOfOperands.Text, out int _numberOfOperands) && _numberOfOperands > 0)
             {
-                Calculations.SetNumberOfOperands(_numberOfOperands);
+                Calculations.OperandsNumber = _numberOfOperands;
                 this.NavigationService.Navigate(new Page2());
             }
             else

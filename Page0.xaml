@@ -29,7 +29,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="1" Grid.Row="1" FontSize="65" FontFamily="Segoe UI Light" 
-                   Text="Please, select an operation" Grid.ColumnSpan="4"
+                   Text="Please, select an Operation" Grid.ColumnSpan="4"
                    Margin="0,0,0,10" TextAlignment="Center"/>
             <RadioButton x:Name="operation_sum2" Content="Mod addition" ClickMode="Press" 
                      Grid.Column="1" Grid.Row="2"

@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Course_Work_v1.BusinessLogic;
+using Course_Work_v1.BusinessLogic.Models;
 
 namespace Course_Work_v1
 {
@@ -27,7 +17,7 @@ namespace Course_Work_v1
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            if(Calculations.GetOperation() == Operation.Sum2 || Calculations.GetOperation() == Operation.Mult2)
+            if(Calculations.Operation == Operation.Sum2 || Calculations.Operation == Operation.Mult2)
             {
                 DisplayParametersMod();
             }
@@ -42,17 +32,17 @@ namespace Course_Work_v1
 
         private void DisplayParameters()
         {
-            MessageBox.Show($"Data test: Operation: {Calculations.Operation_toString()}. \n" +
-            $"Number of operands: {Calculations.OperandsNum_toString()}. \n" +
-            $"Digit capacity: {Calculations.DigitCapacity_toString()} \n");
+            MessageBox.Show($"Data test: Operation: {Calculations.Operation}. \n" +
+            $"Number of operands: {Calculations.OperandsNumber}. \n" +
+            $"Digit capacity: {Calculations.DigitCapacity} \n");
         }
 
         private void DisplayParametersMod()
         {
-            MessageBox.Show($"Data test: Operation: {Calculations.Operation_toString()}. \n" +
-            $"Number of operands: {Calculations.OperandsNum_toString()}. \n" +
-            $"Digit capacity: {Calculations.DigitCapacity_toString()} \n" +
-            $"Operation module: {Calculations.OperationModule_toString()} \n");
+            MessageBox.Show($"Data test: Operation: {Calculations.Operation}. \n" +
+            $"Number of operands: {Calculations.OperandsNumber}. \n" +
+            $"Digit capacity: {Calculations.DigitCapacity} \n" +
+            $"Operation module: {Calculations.OperationModule} \n");
         }
 
     }
