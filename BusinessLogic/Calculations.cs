@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using BLL.Contracts;
+using BLL.Models;
 using DAL.Contracts;
 using DAL.Models;
 
@@ -14,6 +15,7 @@ namespace Course_Work_v1.BusinessLogic
         public static IOperandsNumberRepository OperandsNumberRepository { get; set; }
         public static IOperationModuleRepository OperationModuleRepository { get; set; }
 
+        public static ITruthTableCalculator TruthTableCalculator { get; set; }
         public static IDimensionsService DimensionsService { get; set; }
 
         #region Properties
@@ -30,87 +32,10 @@ namespace Course_Work_v1.BusinessLogic
         public static int DimensionResultColumns { get; set; }
 
         private static int DimensionVariablesColumns { get; set; }
-        
-        #endregion
-
-        #region Getters Logic
-
-        private static bool GetRightNthBit(int val, int n)
-        {
-            return ((val & (1 << (n - 1))) >> (n - 1)) != 0;
-        }
 
         #endregion
-
         #region Calculations
 
-        private static void CalculateOperationValues(int[,] op_values, bool[,] var_values)
-        {
-            int value_counter;
-            for (int i = 0; i < DimensionRows; i++)
-            {
-                value_counter = 0;
-
-                for (int j = 0; j < DimensionVariablesColumns; j++)
-                {
-                    if (var_values[i, j] == true)
-                    {
-                        op_values[i, value_counter / DigitCapacity] += Convert.ToInt32(Math.Pow(2, (DigitCapacity - 1) - j % DigitCapacity));
-                    }
-                    value_counter++;
-                }
-            }
-        }
-        private static void CalculateOperationResults(int[,] op_values, int[] op_results)
-        {
-            switch (Operation)
-            {
-                case Operation.Sum:
-                    for (int k = 0; k < DimensionRows; k++)
-                    {
-                        for (int m = 0; m < OperandsNumber; m++)
-                        {
-                            op_results[k] += op_values[k, m];
-                        }
-                    }
-                    break;
-                case Operation.Sum2:
-                    for (int k = 0; k < DimensionRows; k++)
-                    {
-                        for (int m = 0; m < OperandsNumber; m++)
-                        {
-                            op_results[k] += op_values[k, m];
-                        }
-                        op_results[k] = op_results[k] % OperationModule;
-                    }
-                    break;
-                case Operation.Mult:
-                    for (int k = 0; k < DimensionRows; k++)
-                    {
-                        op_results[k] = 1;
-
-                        for (int m = 0; m < OperandsNumber; m++)
-                        {
-                            op_results[k] *= op_values[k, m];
-                        }
-                    }
-                    break;
-                case Operation.Mult2:
-                    for (int k = 0; k < DimensionRows; k++)
-                    {
-                        op_results[k] = 1;
-
-                        for (int m = 0; m < OperandsNumber; m++)
-                        {
-                            op_results[k] *= op_values[k, m];
-                        }
-                        op_results[k] = op_results[k] % OperationModule;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
         private static void CalculateModuleLines(int[,] op_values, bool[] module_lines)
         {
             for (int i = 0; i < DimensionRows; i++)
@@ -141,38 +66,6 @@ namespace Course_Work_v1.BusinessLogic
                 vars.Add($"X{i}");
             }
         }
-        private static void FillMatrix_VarValues(bool[,] var_values)
-        {
-            int row_value = 0;
-            for (int i = 0; i < DimensionRows; i++)
-            {
-                for (int j = 0; j < DimensionVariablesColumns; j++)
-                {
-                    var_values[i, j] = GetRightNthBit(row_value, DimensionVariablesColumns - j);
-                }
-                row_value++;
-            }
-        }
-        private static void FillMatrix_ResValues(bool[,] res_values, bool[,] var_values, bool[] module_lines)
-        {
-            int[,] op_values = new int[DimensionRows, OperandsNumber];
-            CalculateOperationValues(op_values, var_values);
-            int[] op_results = new int[DimensionRows];
-            CalculateOperationResults(op_values, op_results);
-
-            if (Operation == Operation.Mult2 || Operation == Operation.Sum2)
-                CalculateModuleLines(op_values, module_lines);
-
-            for (int i = 0; i < DimensionRows; i++)
-            {
-                for (int j = 0; j < DimensionResultColumns; j++)
-                {
-                    res_values[i, j] = GetRightNthBit(op_results[i], DimensionResultColumns - j);
-                }
-            }
-
-            ReedMullerExpansion.SetTruthTableResValues(res_values);
-        }
         #endregion
         #region WriteFileDefault
         private static void WriteFile_TruthTable_VarNames(StreamWriter outputFile, List<string> vars)
@@ -197,13 +90,13 @@ namespace Course_Work_v1.BusinessLogic
             }
             outputFile.WriteLine();
         }
-        private static void WriteFile_TruthTable_Values(StreamWriter outputFile, bool[,] var_values, bool[,] res_values)
+        private static void WriteFile_TruthTable_Values(StreamWriter outputFile, TruthTable truthTable)
         {
             for (int i = 0; i < DimensionRows; i++)
             {
                 for (int j = 0; j < DimensionVariablesColumns; j++)
                 {
-                    outputFile.Write((Convert.ToInt32(var_values[i, j])).ToString());
+                    outputFile.Write((Convert.ToInt32(truthTable.VariableValues[i, j])).ToString());
                     outputFile.Write("   ");
 
                     if ((j + 1) % DigitCapacity == 0)
@@ -220,7 +113,7 @@ namespace Course_Work_v1.BusinessLogic
 
                 for (int j = 0; j < DimensionResultColumns; j++)
                 {
-                    outputFile.Write((Convert.ToInt32(res_values[i, j])).ToString());
+                    outputFile.Write((Convert.ToInt32(truthTable.ResultValues[i, j])).ToString());
                     outputFile.Write("    ");
 
                     if (j > 9)
@@ -240,20 +133,20 @@ namespace Course_Work_v1.BusinessLogic
             outputFile.WriteLine($".o {DimensionResultColumns}");
             outputFile.WriteLine($".p {DimensionRows}");
         }
-        private static void WriteFile_TableValues(StreamWriter outputFile, bool[,] var_values, bool[,] res_values)
+        private static void WriteFile_TableValues(StreamWriter outputFile, TruthTable truthTable)
         {
             for (int i = 0; i < DimensionRows; i++)
             {
                 for (int j = 0; j < DimensionVariablesColumns; j++)
                 {
-                    outputFile.Write(Convert.ToInt32(var_values[i, j]).ToString());
+                    outputFile.Write(Convert.ToInt32(truthTable.VariableValues[i, j]).ToString());
                 }
 
                 outputFile.Write(" ");
 
                 for (int j = 0; j < DimensionResultColumns; j++)
                 {
-                    outputFile.Write(Convert.ToInt32(res_values[i, j]).ToString());
+                    outputFile.Write(Convert.ToInt32(truthTable.ResultValues[i, j]).ToString());
                 }
 
                 outputFile.WriteLine();
@@ -295,38 +188,44 @@ namespace Course_Work_v1.BusinessLogic
             DimensionResultColumns = dimensions.DimensionResultColumns;
             DimensionVariablesColumns = dimensions.DimensionVariablesColumns;
 
+            var userParameters = new UserParameters()
+            {
+                DigitCapacity = DigitCapacity,
+                OperandsNumber = OperandsNumber,
+                OperationModule = OperationModule,
+                Operation = Operation
+            };
+            var truthTable = TruthTableCalculator.CalculateTruthTable(dimensions, userParameters);
+
             List<string> vars = new List<string>();
             List<string> res = new List<string>();
-            bool[,] var_values = new bool[DimensionRows, DimensionVariablesColumns];
-            bool[,] res_values = new bool[DimensionRows, DimensionResultColumns];
-            bool[] module_lines = new bool[DimensionRows];
+
+            //bool[] module_lines = new bool[DimensionRows];
 
             FillList_VarNames(vars);
             FillList_ResNames(res);
-            FillMatrix_VarValues(var_values);
-            FillMatrix_ResValues(res_values, var_values, module_lines);
 
             using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable.txt")))
             {
                 WriteFile_TruthTable_VarNames(outputFile, vars);
                 WriteFile_TruthTable_ResNames(outputFile, res);
-                WriteFile_TruthTable_Values(outputFile, var_values, res_values);
+                WriteFile_TruthTable_Values(outputFile, truthTable);
             }
 
             using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable1.txt")))
             {
                 WriteFile_UserVariables(outputFile);
-                WriteFile_TableValues(outputFile, var_values, res_values);
+                WriteFile_TableValues(outputFile, truthTable);
             }
 
-            if(Operation == Operation.Mult2 || Operation == Operation.Sum2)
-            {
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable2.txt")))
-                {
-                    WriteFile_UserVariables(outputFile);
-                    WriteFile_TableValues_ModuleOperation(outputFile, var_values, res_values, module_lines);
-                }
-            }    
+            //if (Operation == Operation.Mult2 || Operation == Operation.Sum2)
+            //{
+            //    using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, "Truthtable2.txt")))
+            //    {
+            //        WriteFile_UserVariables(outputFile);
+            //        WriteFile_TableValues_ModuleOperation(outputFile, var_values, res_values, module_lines);
+            //    }
+            //}
 
         }
         #endregion
