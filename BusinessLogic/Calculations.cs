@@ -10,17 +10,16 @@ namespace Course_Work_v1.BusinessLogic
     public static class Calculations
     {
         public static IOperationRepository OperationRepository { get; set; }
+        public static IDigitCapacityRepository DigitCapacityRepository { get; set; }
+        public static IOperandsNumberRepository OperandsNumberRepository { get; set; }
+        public static IOperationModuleRepository OperationModuleRepository { get; set; }
 
         #region Properties
 
         private static Operation Operation => OperationRepository.GetOperation();
-
-        public static int OperandsNumber { get; set; }
-
-        public static int DigitCapacity { get; set; }
-
-        public static int OperationModule { get; set; }
-
+        private static int OperandsNumber => OperandsNumberRepository.GetOperandsNumber();
+        private static int DigitCapacity => DigitCapacityRepository.GetDigitCapacity();
+        private static int OperationModule => OperationModuleRepository.GetOperationModule();
         private static int IterationSize { get; set; }
 
         public static int DimensionRows { get; set; }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Course_Work_v1.BusinessLogic;
+using DAL.Contracts;
 using Ninject;
 
 namespace Course_Work_v1
@@ -20,17 +21,19 @@ namespace Course_Work_v1
     public partial class Page1 : Page
     {
         private readonly IKernel kernel;
-        public Page1(IKernel kernel)
+        private readonly IOperandsNumberRepository operandsNumberRepository;
+        public Page1(IKernel kernel, IOperandsNumberRepository operandsNumberRepository)
         {
             this.kernel = kernel;
+            this.operandsNumberRepository = operandsNumberRepository;
             InitializeComponent();
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(numberOfOperands.Text, out int _numberOfOperands) && _numberOfOperands > 0)
+            if (Int32.TryParse(numberOfOperands.Text, out int operandsNum) && operandsNum > 0)
             {
-                Calculations.OperandsNumber = _numberOfOperands;
+                operandsNumberRepository.SetOperandsNumber(operandsNum);
                 this.NavigationService.Navigate(kernel.Get<Page2>());
             }
             else

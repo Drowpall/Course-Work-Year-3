@@ -27,7 +27,7 @@ namespace Course_Work_v1
         private void ConfigureContainer()
         {
             this.container = new StandardKernel();
-            container.Bind<IOperationRepository>().To<OperationRepository>().InSingletonScope();
+            container.Bind<IOperationRepository, IDigitCapacityRepository, IOperandsNumberRepository, IOperationModuleRepository>().To<Repository>().InSingletonScope();
             container.Bind<Page0>().ToSelf().InTransientScope();
             container.Bind<Page1>().ToSelf().InTransientScope();
             container.Bind<Page2>().ToSelf().InTransientScope();
@@ -40,6 +40,9 @@ namespace Course_Work_v1
         private void ComposeObjects()
         {
             Calculations.OperationRepository = container.Get<IOperationRepository>();
+            Calculations.DigitCapacityRepository = container.Get<IDigitCapacityRepository>();
+            Calculations.OperandsNumberRepository = container.Get<IOperandsNumberRepository>();
+            Calculations.OperationModuleRepository = container.Get<IOperationModuleRepository>();
             Current.MainWindow = this.container.Get<MainWindow>();
         }
     }

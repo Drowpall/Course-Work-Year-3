@@ -7,10 +7,6 @@ using Ninject;
 
 namespace Course_Work_v1
 {
-    /// <summary>
-    /// Interaction logic for Page0.xaml
-    /// </summary>
-    /// 
 
     public partial class Page0 : Page
     {
@@ -20,7 +16,7 @@ namespace Course_Work_v1
         public Page0(IKernel kernel)
         {
             this.kernel = kernel;
-            this.operationRepository = kernel.Get<IOperationRepository>();
+            operationRepository = kernel.Get<IOperationRepository>();
             InitializeComponent();
         }
 
