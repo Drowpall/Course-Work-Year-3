@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Course_Work_v1.BusinessLogic;
 using DAL.Contracts;
 using DAL.Models;
 using Ninject;

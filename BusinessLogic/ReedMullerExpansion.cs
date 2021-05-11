@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using BLL.Contracts;
-using Course_Work_v1.BusinessLogic;
-using static System.Linq.Enumerable;
-
-namespace Course_Work_v1
+﻿namespace Course_Work_v1
 {
     /// <summary>
     /// Given algorithm implements several steps, including:
@@ -31,7 +20,7 @@ namespace Course_Work_v1
     ///         
     /// * For detailed explanation and further examples, please see /DOC/Harking_Algorithm
     /// </summary>
-  
+
     //internal static class ReedMullerExpansion
     //{
     //    #region Array & Variables Declarations
@@ -69,7 +58,7 @@ namespace Course_Work_v1
     //                    binary_matrixB[(sq_dim / 2) + i, j] = f_vector[(i + j) % (sq_dim / 2) + (sq_dim / 2)];
     //                }
     //            }
-              
+
     //            matrices_B.Add((int[,])binary_matrixB.Clone());
     //        }
 

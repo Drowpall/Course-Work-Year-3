@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Course_Work_v1.BusinessLogic;
-using DAL.Models;
+using BLL.Contracts;
 using Ninject;
 
 namespace Course_Work_v1
@@ -9,15 +8,19 @@ namespace Course_Work_v1
     public partial class Page3 : Page
     {
         private readonly IKernel kernel;
-        public Page3(IKernel kernel)
+        private readonly ICalculationService calculationService;
+
+
+        public Page3(IKernel kernel, ICalculationService calculationService)
         {
             this.kernel = kernel;
+            this.calculationService = calculationService;
             InitializeComponent();
         }
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            Calculations.DrawTruthTable();
+            calculationService.DrawTruthTable();
             this.NavigationService.Navigate(kernel.Get<Page4>());
         }
 
