@@ -2,7 +2,6 @@
 using BLL.Contracts.IOutput;
 using BLL.Services;
 using BLL.Services.CalculateOperationResults;
-using Course_Work_v1.BusinessLogic;
 using DAL.Contracts;
 using DAL.Services;
 using Ninject;
@@ -35,6 +34,7 @@ namespace Course_Work_v1
 
         private void ConfigureBLL()
         {
+            container.Bind<ICalculationService>().To<CalculationService>().InSingletonScope();
             container.Bind<IDimensionsService>().To<DimensionsService>().InSingletonScope();
             container.Bind<ITruthTableCalculator>().To<TruthTableCalculator>().InSingletonScope();
 
@@ -62,17 +62,16 @@ namespace Course_Work_v1
 
         private void ComposeObjects()
         {
-            Calculations.OperationRepository = container.Get<IOperationRepository>();
-            Calculations.DigitCapacityRepository = container.Get<IDigitCapacityRepository>();
-            Calculations.OperandsNumberRepository = container.Get<IOperandsNumberRepository>();
-            Calculations.OperationModuleRepository = container.Get<IOperationModuleRepository>();
-            Calculations.DimensionsService = container.Get<IDimensionsService>();
-            Calculations.TruthTableCalculator = container.Get<ITruthTableCalculator>();
-
-            Calculations.OutputExtendedService = container.Get<IOutputExtendedService>();
-            Calculations.OutputReducedService = container.Get<IOutputReducedService>();
-            Calculations.OutputModuleService = container.Get<IOutputModuleService>();
-
+            CalculationService calculationService = new CalculationService(container.Get<IOperationRepository>(), 
+                                                                           container.Get<IDigitCapacityRepository>(),
+                                                                           container.Get<IOperandsNumberRepository>(),
+                                                                           container.Get<IOperationModuleRepository>(),
+                                                                           container.Get<ITruthTableCalculator>(),
+                                                                           container.Get<IDimensionsService>(),
+                                                                           container.Get<IOutputExtendedService>(),
+                                                                           container.Get<IOutputReducedService>(),
+                                                                           container.Get<IOutputModuleService>()
+                                                                           );
             Current.MainWindow = this.container.Get<MainWindow>();
         }
     }

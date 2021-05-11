@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\ICalculationService.cs" />
     <Compile Include="Contracts\IDimensionsService.cs" />
     <Compile Include="Contracts\IOutput\IOutputExtendedService.cs" />
     <Compile Include="Contracts\IOutput\IOutputModuleService.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Services\CalculateOperationResults\CalculateMultOperationResult.cs" />
     <Compile Include="Services\CalculateOperationResults\CalculateSum2OperationResuls.cs" />
     <Compile Include="Services\CalculateOperationResults\CalculateSumOperationResult.cs" />
+    <Compile Include="Services\CalculationService.cs" />
     <Compile Include="Services\Extensions.cs" />
     <Compile Include="Services\FileOutput\FileOutputExtendedService.cs" />
     <Compile Include="Services\FileOutput\FileOutputModuleService.cs" />
