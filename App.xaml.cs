@@ -1,4 +1,5 @@
 ﻿using BLL.Contracts;
+using BLL.Contracts.IOutput;
 using BLL.Services;
 using BLL.Services.CalculateOperationResults;
 using Course_Work_v1.BusinessLogic;
@@ -36,14 +37,18 @@ namespace Course_Work_v1
         {
             container.Bind<IDimensionsService>().To<DimensionsService>().InSingletonScope();
             container.Bind<ITruthTableCalculator>().To<TruthTableCalculator>().InSingletonScope();
-            container.Bind<IOutputService>().To<FileOutputService>().InSingletonScope();
+
+            container.Bind<IOutputExtendedService>().To<FileOutputExtendedService>().InSingletonScope();
+            container.Bind<IOutputReducedService>().To<FileOutputReducedService>().InSingletonScope();
+            container.Bind<IOutputModuleService>().To<FileOutputModuleService>().InSingletonScope();
+           
 
             container.Bind<IOperationResultsCalculator>().To<CalculateMultOperationResult>().InSingletonScope();
             container.Bind<IOperationResultsCalculator>().To<CalculateMult2OperationResult>().InSingletonScope();
             container.Bind<IOperationResultsCalculator>().To<CalculateSumOperationResult>().InSingletonScope();
             container.Bind<IOperationResultsCalculator>().To<CalculateSum2OperationResuls>().InSingletonScope();
         }
-
+        
         private void ConfigurePresentation()
         {
             container.Bind<Page0>().ToSelf().InTransientScope();
@@ -63,7 +68,10 @@ namespace Course_Work_v1
             Calculations.OperationModuleRepository = container.Get<IOperationModuleRepository>();
             Calculations.DimensionsService = container.Get<IDimensionsService>();
             Calculations.TruthTableCalculator = container.Get<ITruthTableCalculator>();
-            Calculations.OutputService = container.Get<IOutputService>();
+
+            Calculations.OutputExtendedService = container.Get<IOutputExtendedService>();
+            Calculations.OutputReducedService = container.Get<IOutputReducedService>();
+            Calculations.OutputModuleService = container.Get<IOutputModuleService>();
 
             Current.MainWindow = this.container.Get<MainWindow>();
         }
