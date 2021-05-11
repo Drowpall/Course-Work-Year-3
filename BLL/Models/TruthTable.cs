@@ -12,6 +12,10 @@
 
         public bool[,] ResultValues { get; private set; }
 
+        public bool[] ModuleRows { get; private set; }
+
+        public bool[] ModuleCols { get; private set; }
+
         public TruthTable(int dimensionRows, int dimensionResultColumns, int dimensionVariablesColumns)
         {
             this.DimensionRows = dimensionRows;
@@ -20,6 +24,8 @@
 
             this.VariableValues = new bool[DimensionRows, DimensionVariablesColumns]; 
             this.ResultValues = new bool[DimensionRows, DimensionResultColumns];
+            this.ModuleRows = new bool[DimensionRows];
+            this.ModuleCols = new bool[DimensionVariablesColumns];
         }
     }
 }

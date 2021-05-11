@@ -160,10 +160,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TextOutput\Polynomials.txt" />
-    <Resource Include="TextOutput\Truthtable.txt" />
-    <Resource Include="TextOutput\Truthtable1.txt" />
-    <Resource Include="TextOutput\Truthtable2.txt" />
+    <Folder Include="TextOutput\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
