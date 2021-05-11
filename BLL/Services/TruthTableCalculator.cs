@@ -55,8 +55,6 @@ namespace BLL.Services
                     truthTable.ResultValues[i, j] = GetRightNthBit(operationResults[i], dimensions.DimensionResultColumns - j);
                 }
             }
-
-            //ReedMullerExpansion.SetTruthTableResValues(res_values);
         }
 
         private int[,] CalculateOperationValues(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)

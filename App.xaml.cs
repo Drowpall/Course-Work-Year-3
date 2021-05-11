@@ -2,6 +2,7 @@
 using BLL.Contracts.IOutput;
 using BLL.Services;
 using BLL.Services.CalculateOperationResults;
+using BLL.Services.FileOutput;
 using DAL.Contracts;
 using DAL.Services;
 using Ninject;
@@ -34,13 +35,22 @@ namespace Course_Work_v1
 
         private void ConfigureBLL()
         {
-            container.Bind<ICalculationService>().To<CalculationService>().InSingletonScope();
+            container.Bind<IAlgorithmService>().To<AlgorithmService>().InSingletonScope();
+            container.Bind<IPolynomialEvaluationService>().To<PolynomialEvaluationService>().InSingletonScope();
+
             container.Bind<IDimensionsService>().To<DimensionsService>().InSingletonScope();
             container.Bind<ITruthTableCalculator>().To<TruthTableCalculator>().InSingletonScope();
+            container.Bind<IMatricesConstructor>().To<MatricesConctructor>().InSingletonScope();
+
 
             container.Bind<IOutputExtendedService>().To<FileOutputExtendedService>().InSingletonScope();
             container.Bind<IOutputReducedService>().To<FileOutputReducedService>().InSingletonScope();
             container.Bind<IOutputModuleService>().To<FileOutputModuleService>().InSingletonScope();
+
+            container.Bind<IOutputMatricesService>().To<FileOutputMatricesService>().InSingletonScope();
+            container.Bind<IOutputPolynomialsService>().To<FileOutputPolynomialsService>().InSingletonScope();
+
+
            
 
             container.Bind<IOperationResultsCalculator>().To<CalculateMultOperationResult>().InSingletonScope();
@@ -62,16 +72,21 @@ namespace Course_Work_v1
 
         private void ComposeObjects()
         {
-            CalculationService calculationService = new CalculationService(container.Get<IOperationRepository>(), 
+            AlgorithmService calculationService = new AlgorithmService(container.Get<IOperationRepository>(), 
                                                                            container.Get<IDigitCapacityRepository>(),
                                                                            container.Get<IOperandsNumberRepository>(),
                                                                            container.Get<IOperationModuleRepository>(),
                                                                            container.Get<ITruthTableCalculator>(),
+                                                                           container.Get<IMatricesConstructor>(),
+                                                                           container.Get<IPolynomialEvaluationService>(),
                                                                            container.Get<IDimensionsService>(),
                                                                            container.Get<IOutputExtendedService>(),
                                                                            container.Get<IOutputReducedService>(),
-                                                                           container.Get<IOutputModuleService>()
+                                                                           container.Get<IOutputModuleService>(),
+                                                                           container.Get<IOutputMatricesService>(),
+                                                                           container.Get<IOutputPolynomialsService>()
                                                                            );
+
             Current.MainWindow = this.container.Get<MainWindow>();
         }
     }

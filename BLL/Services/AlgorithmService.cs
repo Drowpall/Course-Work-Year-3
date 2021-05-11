@@ -8,19 +8,23 @@ using System.IO;
 
 namespace BLL.Services
 {
-    public class CalculationService : ICalculationService
+    public class AlgorithmService : IAlgorithmService
     {
-        public CalculationService
+        public AlgorithmService
         (
             IOperationRepository operationRepository, 
             IDigitCapacityRepository digitCapacityRepository, 
             IOperandsNumberRepository operandsNumberRepository, 
             IOperationModuleRepository operationModuleRepository, 
             ITruthTableCalculator truthTableCalculator, 
+            IMatricesConstructor matricesConstructor,
+            IPolynomialEvaluationService polynomialEvaluationService,
             IDimensionsService dimensionsService, 
             IOutputExtendedService outputExtendedService, 
             IOutputReducedService outputReducedService, 
-            IOutputModuleService outputModuleService
+            IOutputModuleService outputModuleService,
+            IOutputMatricesService outputMatricesService,
+            IOutputPolynomialsService outputPolynomialsService
         )
         {
             OperationRepository = operationRepository;
@@ -28,10 +32,14 @@ namespace BLL.Services
             OperandsNumberRepository = operandsNumberRepository;
             OperationModuleRepository = operationModuleRepository;
             TruthTableCalculator = truthTableCalculator;
+            MatricesConstructor = matricesConstructor;
+            PolynomialEvaluationService = polynomialEvaluationService;
             DimensionsService = dimensionsService;
             OutputExtendedService = outputExtendedService;
             OutputReducedService = outputReducedService;
             OutputModuleService = outputModuleService;
+            OutputMatricesService = outputMatricesService;
+            OutputPolynomialsService = outputPolynomialsService;
         }
 
         public IOperationRepository OperationRepository { get; set; }
@@ -39,11 +47,16 @@ namespace BLL.Services
         public IOperandsNumberRepository OperandsNumberRepository { get; set; }
         public IOperationModuleRepository OperationModuleRepository { get; set; }
         public ITruthTableCalculator TruthTableCalculator { get; set; }
+        public IMatricesConstructor MatricesConstructor { get; set; }
+        public IPolynomialEvaluationService PolynomialEvaluationService { get; set; }
         public IDimensionsService DimensionsService { get; set; }
 
         public IOutputExtendedService OutputExtendedService { get; set; }
         public IOutputReducedService OutputReducedService { get; set; }
         public IOutputModuleService OutputModuleService { get; set; }
+
+        public IOutputMatricesService OutputMatricesService { get; set; }
+        public IOutputPolynomialsService OutputPolynomialsService { get; set; }
 
 
         private Operation Operation => OperationRepository.GetOperation();
@@ -81,6 +94,35 @@ namespace BLL.Services
                 {
                     OutputModuleService.OutputModuleTruthTable(outputFile, truthTable, userParameters, dimensions);
                 }
+            }
+        }
+
+        public void CalculatePolynomials()
+        {
+            var userParameters = new UserParameters()
+            {
+                DigitCapacity = DigitCapacity,
+                OperandsNumber = OperandsNumber,
+                OperationModule = OperationModule,
+                Operation = Operation
+            };
+
+            var dimensions = DimensionsService.GetDimensions(userParameters);
+
+            var truthTable = TruthTableCalculator.CalculateTruthTable(dimensions, userParameters);
+
+            var matrices = MatricesConstructor.CalculateMatrices(truthTable, dimensions, userParameters);
+
+            PolynomialEvaluationService.EvaluatePolynomial(truthTable, matrices);
+
+            using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.Matrices)))
+            {
+                OutputMatricesService.OutputMatrices(outputFile, matrices);
+            }
+
+            using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomials)))
+            {
+                OutputPolynomialsService.OutputShortestPolynomials(outputFile, matrices);
             }
         }
     }
