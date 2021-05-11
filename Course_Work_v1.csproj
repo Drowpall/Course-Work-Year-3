@@ -61,7 +61,6 @@
     <Compile Include="Pages\Page5.xaml.cs">
       <DependentUpon>Page5.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BusinessLogic\ReedMullerExpansion.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

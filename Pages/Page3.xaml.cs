@@ -8,10 +8,10 @@ namespace Course_Work_v1
     public partial class Page3 : Page
     {
         private readonly IKernel kernel;
-        private readonly ICalculationService calculationService;
+        private readonly IAlgorithmService calculationService;
 
 
-        public Page3(IKernel kernel, ICalculationService calculationService)
+        public Page3(IKernel kernel, IAlgorithmService calculationService)
         {
             this.kernel = kernel;
             this.calculationService = calculationService;

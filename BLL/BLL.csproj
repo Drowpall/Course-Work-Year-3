@@ -44,14 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\ICalculationService.cs" />
+    <Compile Include="Contracts\IAlgorithmService.cs" />
     <Compile Include="Contracts\IDimensionsService.cs" />
+    <Compile Include="Contracts\IOutput\IOutputMatricesService.cs" />
+    <Compile Include="Contracts\IOutput\IOutputPolynomialsService.cs" />
+    <Compile Include="Contracts\IPolynomialEvaluationService.cs" />
+    <Compile Include="Contracts\IMatricesConstructor.cs" />
     <Compile Include="Contracts\IOutput\IOutputExtendedService.cs" />
     <Compile Include="Contracts\IOutput\IOutputModuleService.cs" />
     <Compile Include="Contracts\IOperationResultsCalculator.cs" />
     <Compile Include="Contracts\IOutput\IOutputReducedService.cs" />
     <Compile Include="Contracts\ITruthTableCalculator.cs" />
     <Compile Include="Models\Globals.cs" />
+    <Compile Include="Models\Matrices.cs" />
     <Compile Include="Models\UserParameters.cs" />
     <Compile Include="Models\Dimensions.cs" />
     <Compile Include="Models\TruthTable.cs" />
@@ -60,12 +65,16 @@
     <Compile Include="Services\CalculateOperationResults\CalculateMultOperationResult.cs" />
     <Compile Include="Services\CalculateOperationResults\CalculateSum2OperationResuls.cs" />
     <Compile Include="Services\CalculateOperationResults\CalculateSumOperationResult.cs" />
-    <Compile Include="Services\CalculationService.cs" />
+    <Compile Include="Services\AlgorithmService.cs" />
+    <Compile Include="Services\FileOutput\FileOutputMatricesService.cs" />
+    <Compile Include="Services\FileOutput\FileOutputPolynomialsService.cs" />
+    <Compile Include="Services\PolynomialEvaluationService.cs" />
     <Compile Include="Services\Extensions.cs" />
     <Compile Include="Services\FileOutput\FileOutputExtendedService.cs" />
     <Compile Include="Services\FileOutput\FileOutputModuleService.cs" />
     <Compile Include="Services\FileOutput\FileOutputReducedService.cs" />
     <Compile Include="Services\DimensionsService.cs" />
+    <Compile Include="Services\MatricesConctructor.cs" />
     <Compile Include="Services\TruthTableCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

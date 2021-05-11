@@ -1,34 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BLL.Contracts;
+using Ninject;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Course_Work_v1
 {
-    /// <summary>
-    /// Interaction logic for Page4.xaml
-    /// </summary>
     public partial class Page4 : Page
     {
-        public Page4()
+        private readonly IKernel kernel;
+        private readonly IAlgorithmService calculationService;
+        public Page4(IKernel kernel, IAlgorithmService calculationService)
         {
+            this.kernel = kernel;
+            this.calculationService = calculationService;
             InitializeComponent();
         }
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            //  ReedMullerExpansion.ConstructBinaryMatrixT();
-            //ReedMullerExpansion.EvaluatePolynomial();
+            calculationService.CalculatePolynomials();
             this.NavigationService.Navigate(new Page5());
         }
     }

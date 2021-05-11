@@ -6,5 +6,7 @@
         public static string TruthTableExtended = "TruthTable0.txt";
         public static string TruthTableReduced = "TruthTable1.txt";
         public static string TruthTableModule = "TruthTable2.txt";
+        public static string Matrices = "Matrices.txt";
+        public static string ShortestPolynomials = "PolynomialsShort.txt";
     }
 }
