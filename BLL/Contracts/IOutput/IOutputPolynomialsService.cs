@@ -11,5 +11,7 @@ namespace BLL.Contracts.IOutput
     public interface IOutputPolynomialsService
     {
         void OutputShortestPolynomials(StreamWriter outputFile, Matrices matrices);
+
+        void OutputShortestPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
     }
 }

@@ -123,7 +123,9 @@ namespace BLL.Services
             using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomials)))
             {
                 OutputPolynomialsService.OutputShortestPolynomials(outputFile, matrices);
+                OutputPolynomialsService.OutputShortestPolynomialsText(outputFile, matrices, userParameters, dimensions);
             }
+
         }
     }
 }
