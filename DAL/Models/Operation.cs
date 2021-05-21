@@ -1,4 +1,4 @@
-﻿namespace Course_Work_v1.BusinessLogic.Models
+﻿namespace DAL.Models
 {
     public enum Operation
     {
