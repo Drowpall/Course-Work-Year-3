@@ -40,7 +40,7 @@ namespace Course_Work_v1
 
             container.Bind<IDimensionsService>().To<DimensionsService>().InSingletonScope();
             container.Bind<ITruthTableCalculator>().To<TruthTableCalculator>().InSingletonScope();
-            container.Bind<IMatricesConstructor>().To<MatricesConctructor>().InSingletonScope();
+            container.Bind<IMatricesConstructor>().To<MatricesConstructor>().InSingletonScope();
 
 
             container.Bind<IOutputExtendedService>().To<FileOutputExtendedService>().InSingletonScope();

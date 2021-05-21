@@ -11,26 +11,47 @@ namespace BLL.Services.FileOutput
 {
     public class FileOutputPolynomialsService : IOutputPolynomialsService
     {
-        public void OutputShortestPolynomials(StreamWriter outputFile, Matrices matrices)
+        public void OutputMinimalPolynomialsVectors(StreamWriter outputFile, Matrices matrices)
         {
             int count = 0;
-            foreach (var polynomial in matrices.shortestPolynomials)
+            foreach (var polynomial in matrices.minimalPolynomials)
             {
                 outputFile.Write($"Vector {++count}: [");
+                bool isFirstValue = true;
                 foreach (var value in polynomial)
                 {
-                    outputFile.Write(value + ",");
+                    if (isFirstValue)
+                    {
+                        outputFile.Write(value);
+                        isFirstValue = false;
+                    }
+                    else
+                    {
+                        outputFile.Write("," + value);
+                    }
                 }
                 outputFile.WriteLine("].");
             }
             outputFile.WriteLine();
         }
 
-        public void OutputShortestPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions)
+        public void OutputMinimalPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions)
         {
-            foreach (var vector in matrices.shortestPolynomials)
+            int vectorNumber = 0;
+            foreach (var vector in matrices.minimalPolynomials)
             {
                 int numberOfSuitablePolynoms = 0;
+
+                int[] negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
+                int polarity = matrices.numbersOfLinesShortest[vectorNumber];
+                for (int position = 0; polarity > 0; position++)
+                {
+                    if (polarity % 2 == 1)
+                    {
+                        negativePos[position] = 1;
+                    }
+                    polarity /= 2;
+                }
                 for (int vectorElement = 0; vectorElement < dimensions.DimensionRows; vectorElement++)
                 {
                     if (vector[vectorElement] == 1)
@@ -42,14 +63,97 @@ namespace BLL.Services.FileOutput
 
                         for (int i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
                         {
-                            if (GetRightNthBit(vectorElement, i))
-                            outputFile.Write($"X{i}");
+                            if (negativePos[i] == 0)
+                            {
+                                if (GetRightNthBit(vectorElement, i + 1))
+                                    outputFile.Write($"X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                            }
+                            else
+                            {
+                                if (GetRightNthBit(vectorElement, i + 1))
+                                    outputFile.Write($"~X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                            }
+
                         }
 
                         numberOfSuitablePolynoms++;
                     }
                 }
                 outputFile.WriteLine();
+                vectorNumber++;
+            }
+        }
+
+        public void OutputShortestPolynomialsVectors(StreamWriter outputFile, Matrices matrices)
+        {
+            int count = 0;
+            foreach (var polynomial in matrices.shortestPolynomials)
+            {
+                outputFile.Write($"Vector {++count}: [");
+                bool isFirstValue = true;
+                foreach (var value in polynomial)
+                {
+                    if(isFirstValue)
+                    {
+                        outputFile.Write(value);
+                        isFirstValue = false;
+                    }
+                    else
+                    {
+                        outputFile.Write("," + value);
+                    }
+                }
+                outputFile.WriteLine("].");
+            }
+            outputFile.WriteLine();
+        }
+
+        public void OutputShortestPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions)
+        {
+            int vectorNumber = 0;
+            foreach (var vector in matrices.shortestPolynomials)
+            {
+                int numberOfSuitablePolynoms = 0;
+
+                int[] negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
+                int polarity = matrices.numbersOfLinesShortest[vectorNumber];
+                for (int position = 0; polarity > 0; position++)
+                {
+                    if(polarity % 2 == 1)
+                    {
+                        negativePos[position] = 1;
+                    }
+                    polarity /= 2; 
+                }
+                for (int vectorElement = 0; vectorElement < dimensions.DimensionRows; vectorElement++)
+                {
+                    if (vector[vectorElement] == 1)
+                    {
+                        if (numberOfSuitablePolynoms != 0)
+                        {
+                            outputFile.Write(" \u2295 ");
+                        }
+
+                        for (int i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
+                        {
+                            if(negativePos[i] == 0)
+                            {
+                                if (GetRightNthBit(vectorElement, i + 1))
+                                    outputFile.Write($"X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                            }
+                            else
+                            {
+                                if (GetRightNthBit(vectorElement, i + 1))
+                                    outputFile.Write($"~X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                            }
+
+                        }
+
+                        numberOfSuitablePolynoms++;
+                    }
+                }
+                outputFile.WriteLine();
+                vectorNumber++;
             }
         }
 
@@ -63,5 +167,6 @@ namespace BLL.Services.FileOutput
             else
                 return ((val & (1 << (n - 1))) >> (n - 1)) != 0;
         }
+
     }
 }

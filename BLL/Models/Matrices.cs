@@ -15,6 +15,9 @@ namespace BLL.Models
         public int[,] MatrixZ { get; set; }
 
         public List<int[]> shortestPolynomials { get; private set; }
+        public List<int[]> minimalPolynomials { get; private set; }
+        public List<int> numbersOfLinesShortest { get; private set; }
+        public List<int> numbersOfLinesMinimal { get; private set; }
 
         public Matrices(TruthTable truthTable)
         {
@@ -22,6 +25,9 @@ namespace BLL.Models
             this.MatricesB = new List<int[,]>();
             this.MatricesM = new List<int[,]>();
             this.shortestPolynomials = new List<int[]>();
+            this.minimalPolynomials = new List<int[]>();
+            this.numbersOfLinesShortest = new List<int>();
+            this.numbersOfLinesMinimal = new List<int>();
         }
     }
 }

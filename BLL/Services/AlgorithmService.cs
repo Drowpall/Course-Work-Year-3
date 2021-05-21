@@ -4,7 +4,10 @@ using BLL.Models;
 using Course_Work_v1;
 using DAL.Contracts;
 using DAL.Models;
+using System;
+using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace BLL.Services
 {
@@ -78,21 +81,30 @@ namespace BLL.Services
 
             var truthTable = TruthTableCalculator.CalculateTruthTable(dimensions, userParameters);
 
-            using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableExtended)))
+           // using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableExtended)))
+            using (StreamWriter outputFile = File.CreateText(Globals.TruthTableExtended))
             {
                 OutputExtendedService.OutputExtendedTruthTable(outputFile, truthTable, userParameters, dimensions);
+                Thread.Sleep(500);
+                Process.Start(Globals.TruthTableExtended);
             }
 
-            using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableReduced)))
+            //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableReduced)))
+            using (StreamWriter outputFile = File.CreateText(Globals.TruthTableReduced))
             {
                 OutputReducedService.OutputReducedTruthTable(outputFile, truthTable, dimensions);
+                Thread.Sleep(500);
+                Process.Start(Globals.TruthTableReduced);
             }
 
             if (userParameters.OperationModule != -1)
             {
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, Globals.TruthTableModule)))
+                //using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, Globals.TruthTableModule)))
+                using (StreamWriter outputFile = new StreamWriter(Globals.TruthTableModule))
                 {
                     OutputModuleService.OutputModuleTruthTable(outputFile, truthTable, userParameters, dimensions);
+                    Thread.Sleep(500);
+                    Process.Start(Globals.TruthTableModule);
                 }
             }
         }
@@ -113,17 +125,26 @@ namespace BLL.Services
 
             var matrices = MatricesConstructor.CalculateMatrices(truthTable, dimensions, userParameters);
 
-            PolynomialEvaluationService.EvaluatePolynomial(truthTable, matrices);
+            PolynomialEvaluationService.EvaluatePolynomialShortest(truthTable, matrices);
+            PolynomialEvaluationService.EvaluatePolynomialMinimal(truthTable, matrices, userParameters);
 
-            using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.Matrices)))
+            //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.Matrices)))
+            using (StreamWriter outputFile = File.CreateText(Globals.Matrices))
             {
                 OutputMatricesService.OutputMatrices(outputFile, matrices);
+                Thread.Sleep(500);
+                Process.Start(Globals.Matrices);
             }
 
-            using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomials)))
+            //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomials)))
+            using (StreamWriter outputFile = File.CreateText(Globals.ShortestPolynomials))
             {
-                OutputPolynomialsService.OutputShortestPolynomials(outputFile, matrices);
+                OutputPolynomialsService.OutputShortestPolynomialsVectors(outputFile, matrices);
                 OutputPolynomialsService.OutputShortestPolynomialsText(outputFile, matrices, userParameters, dimensions);
+                OutputPolynomialsService.OutputMinimalPolynomialsVectors(outputFile, matrices);
+                OutputPolynomialsService.OutputMinimalPolynomialsText(outputFile, matrices, userParameters, dimensions);
+                Thread.Sleep(500);
+                Process.Start(Globals.ShortestPolynomials);
             }
 
         }

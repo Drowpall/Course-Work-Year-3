@@ -9,6 +9,7 @@ namespace BLL.Contracts
 {
     public interface IPolynomialEvaluationService
     {
-        void EvaluatePolynomial(TruthTable truthTable, Matrices matrices);
+        void EvaluatePolynomialShortest(TruthTable truthTable, Matrices matrices);
+        void EvaluatePolynomialMinimal(TruthTable truthTable, Matrices matrices, UserParameters userParameters);
     }
 }

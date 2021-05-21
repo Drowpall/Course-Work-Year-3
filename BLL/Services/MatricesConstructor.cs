@@ -9,7 +9,7 @@ using static System.Linq.Enumerable;
 
 namespace BLL.Services
 {
-    public class MatricesConctructor : IMatricesConstructor
+    public class MatricesConstructor : IMatricesConstructor
     {
 
         public Matrices CalculateMatrices(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
