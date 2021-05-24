@@ -74,7 +74,7 @@
     <Compile Include="Services\FileOutput\FileOutputModuleService.cs" />
     <Compile Include="Services\FileOutput\FileOutputReducedService.cs" />
     <Compile Include="Services\DimensionsService.cs" />
-    <Compile Include="Services\MatricesConctructor.cs" />
+    <Compile Include="Services\MatricesConstructor.cs" />
     <Compile Include="Services\TruthTableCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
