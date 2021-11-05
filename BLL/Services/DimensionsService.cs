@@ -27,7 +27,7 @@ namespace BLL.Services
             };
         }
 
-        private int GetIterationSize(Operation operation, int digitCapacity, int operandsNumber, int operationModule)
+        public int GetIterationSize(Operation operation, int digitCapacity, int operandsNumber, int operationModule)
         {
             int iterationSize; 
 

@@ -68,13 +68,13 @@
     <Compile Include="Services\AlgorithmService.cs" />
     <Compile Include="Services\FileOutput\FileOutputMatricesService.cs" />
     <Compile Include="Services\FileOutput\FileOutputPolynomialsService.cs" />
+    <Compile Include="Services\MatricesConstructor.cs" />
     <Compile Include="Services\PolynomialEvaluationService.cs" />
     <Compile Include="Services\Extensions.cs" />
     <Compile Include="Services\FileOutput\FileOutputExtendedService.cs" />
     <Compile Include="Services\FileOutput\FileOutputModuleService.cs" />
     <Compile Include="Services\FileOutput\FileOutputReducedService.cs" />
     <Compile Include="Services\DimensionsService.cs" />
-    <Compile Include="Services\MatricesConstructor.cs" />
     <Compile Include="Services\TruthTableCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

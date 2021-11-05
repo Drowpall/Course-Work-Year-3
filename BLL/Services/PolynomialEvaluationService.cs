@@ -113,15 +113,11 @@ namespace BLL.Services
             }
         }
 
-
-
         private int[] GetRow(int[,] matrix, int rowNumber)
         {
             return Enumerable.Range(0, matrix.GetLength(1))
                     .Select(x => matrix[rowNumber, x])
                     .ToArray();
         }
-
-
     }
 }
