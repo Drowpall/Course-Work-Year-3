@@ -85,16 +85,16 @@ namespace BLL.Services
             using (StreamWriter outputFile = File.CreateText(Globals.TruthTableExtended))
             {
                 OutputExtendedService.OutputExtendedTruthTable(outputFile, truthTable, userParameters, dimensions);
-                Thread.Sleep(500);
-                Process.Start(Globals.TruthTableExtended);
+                //Thread.Sleep(500);
+                //Process.Start(Globals.TruthTableExtended);
             }
 
             //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableReduced)))
             using (StreamWriter outputFile = File.CreateText(Globals.TruthTableReduced))
             {
                 OutputReducedService.OutputReducedTruthTable(outputFile, truthTable, dimensions);
-                Thread.Sleep(500);
-                Process.Start(Globals.TruthTableReduced);
+                //Thread.Sleep(500);
+                //Process.Start(Globals.TruthTableReduced);
             }
 
             if (userParameters.OperationModule != -1)
@@ -103,8 +103,8 @@ namespace BLL.Services
                 using (StreamWriter outputFile = new StreamWriter(Globals.TruthTableModule))
                 {
                     OutputModuleService.OutputModuleTruthTable(outputFile, truthTable, userParameters, dimensions);
-                    Thread.Sleep(500);
-                    Process.Start(Globals.TruthTableModule);
+                    //Thread.Sleep(500);
+                    //Process.Start(Globals.TruthTableModule);
                 }
             }
         }
@@ -132,19 +132,20 @@ namespace BLL.Services
             using (StreamWriter outputFile = File.CreateText(Globals.Matrices))
             {
                 OutputMatricesService.OutputMatrices(outputFile, matrices);
-                Thread.Sleep(500);
-                Process.Start(Globals.Matrices);
+                //Thread.Sleep(500);
+                //Process.Start(Globals.Matrices);
             }
 
             //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomials)))
             using (StreamWriter outputFile = File.CreateText(Globals.ShortestPolynomials))
             {
-                OutputPolynomialsService.OutputShortestPolynomialsVectors(outputFile, matrices);
+               // OutputPolynomialsService.OutputShortestPolynomialsVectors(outputFile, matrices);
                 OutputPolynomialsService.OutputShortestPolynomialsText(outputFile, matrices, userParameters, dimensions);
-                OutputPolynomialsService.OutputMinimalPolynomialsVectors(outputFile, matrices);
+                // OutputPolynomialsService.OutputMinimalPolynomialsVectors(outputFile, matrices);
+                outputFile.WriteLine();
                 OutputPolynomialsService.OutputMinimalPolynomialsText(outputFile, matrices, userParameters, dimensions);
-                Thread.Sleep(500);
-                Process.Start(Globals.ShortestPolynomials);
+                //Thread.Sleep(500);
+                //Process.Start(Globals.ShortestPolynomials);
             }
 
         }

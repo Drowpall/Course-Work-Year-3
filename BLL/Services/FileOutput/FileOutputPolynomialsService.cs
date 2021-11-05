@@ -37,9 +37,11 @@ namespace BLL.Services.FileOutput
 
         public void OutputMinimalPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions)
         {
+            outputFile.WriteLine("Shortest polynomials: ");
             int vectorNumber = 0;
             foreach (var vector in matrices.minimalPolynomials)
             {
+                outputFile.WriteLine($"S[{vectorNumber}]:");
                 int numberOfSuitablePolynoms = 0;
 
                 int[] negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
@@ -54,24 +56,40 @@ namespace BLL.Services.FileOutput
                 }
                 for (int vectorElement = 0; vectorElement < dimensions.DimensionRows; vectorElement++)
                 {
+                    bool addSign = false;
                     if (vector[vectorElement] == 1)
                     {
                         if (numberOfSuitablePolynoms != 0)
                         {
-                            outputFile.Write(" \u2295 ");
+                            outputFile.Write(" ^ ");
+                            addSign = false;
                         }
 
                         for (int i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
                         {
                             if (negativePos[i] == 0)
                             {
-                                if (GetRightNthBit(vectorElement, i + 1))
+                                if (vectorElement == 0  || GetRightNthBit(vectorElement, i + 1))
+                                {
+                                    if (addSign == true)
+                                    {
+                                        outputFile.Write(" & ");
+                                    }
                                     outputFile.Write($"X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                                    addSign = true;
+                                }
                             }
                             else
                             {
-                                if (GetRightNthBit(vectorElement, i + 1))
+                                if (vectorElement == 0  || GetRightNthBit(vectorElement, i + 1))
+                                {
+                                    if (addSign == true)
+                                    {
+                                        outputFile.Write(" & ");
+                                    }
                                     outputFile.Write($"~X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                                    addSign = true;
+                                }
                             }
 
                         }
@@ -110,9 +128,11 @@ namespace BLL.Services.FileOutput
 
         public void OutputShortestPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions)
         {
+            outputFile.WriteLine("Minimal polynomials: ");
             int vectorNumber = 0;
             foreach (var vector in matrices.shortestPolynomials)
             {
+                outputFile.WriteLine($"S[{vectorNumber}]:");
                 int numberOfSuitablePolynoms = 0;
 
                 int[] negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
@@ -127,24 +147,42 @@ namespace BLL.Services.FileOutput
                 }
                 for (int vectorElement = 0; vectorElement < dimensions.DimensionRows; vectorElement++)
                 {
+                    bool addSign = false;
+
                     if (vector[vectorElement] == 1)
                     {
                         if (numberOfSuitablePolynoms != 0)
                         {
-                            outputFile.Write(" \u2295 ");
+                            outputFile.Write(" ^ ");
+                            addSign = false;
                         }
 
                         for (int i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
                         {
+
                             if(negativePos[i] == 0)
                             {
-                                if (GetRightNthBit(vectorElement, i + 1))
+                                if (vectorElement == 0 || GetRightNthBit(vectorElement, i + 1))
+                                {
+                                    if (addSign == true)
+                                    {
+                                        outputFile.Write(" & ");
+                                    }
                                     outputFile.Write($"X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                                    addSign = true;
+                                }
                             }
                             else
                             {
-                                if (GetRightNthBit(vectorElement, i + 1))
+                                if (vectorElement == 0  || GetRightNthBit(vectorElement, i + 1))
+                                {
+                                    if (addSign == true)
+                                    {
+                                        outputFile.Write(" & ");
+                                    }
                                     outputFile.Write($"~X{userParameters.OperandsNumber * userParameters.DigitCapacity - i - 1}");
+                                    addSign = true;
+                                }
                             }
 
                         }
