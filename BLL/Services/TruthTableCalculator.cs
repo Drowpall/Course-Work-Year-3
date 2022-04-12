@@ -9,11 +9,11 @@ namespace BLL.Services
 {
     public class TruthTableCalculator : ITruthTableCalculator
     {
-        Dictionary<Operation, IOperationResultsCalculator> operationResultsCalculatorsDict;
+        private readonly Dictionary<Operation, IOperationResultsCalculator> operationResultsCalculatorsDict;
 
-        public TruthTableCalculator(List<IOperationResultsCalculator> operationResultsCalculators)
+        public TruthTableCalculator(IEnumerable<IOperationResultsCalculator> operationResultsCalculators)
         {
-            this.operationResultsCalculatorsDict = operationResultsCalculators.ToDictionary(c => c.Operation);
+            operationResultsCalculatorsDict = operationResultsCalculators.ToDictionary(c => c.Operation);
         }
 
         public TruthTable CalculateTruthTable(Dimensions dimensions, UserParameters userParameters)
@@ -29,109 +29,103 @@ namespace BLL.Services
 
         private void CalculateVariableValues(TruthTable truthTable)
         {
-            int row_value = 0;
-            for (int i = 0; i < truthTable.DimensionRows; i++)
+            var rowValue = 0;
+            for (var i = 0; i < truthTable.DimensionRows; i++)
             {
-                for (int j = 0; j < truthTable.DimensionVariablesColumns; j++)
+                for (var j = 0; j < truthTable.DimensionVariablesColumns; j++)
                 {
-                    truthTable.VariableValues[i, j] = GetRightNthBit(row_value, truthTable.DimensionVariablesColumns - j);
+                    truthTable.VariableValues[i, j] = GetRightNthBit(rowValue, truthTable.DimensionVariablesColumns - j);
                 }
 
-                row_value++;
+                rowValue++;
             }
         }
 
         private void CalculateResultValues(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
         {
             var operationValues = CalculateOperationValues(truthTable, dimensions, userParameters);
-            var operationResultCalucator = this.operationResultsCalculatorsDict[userParameters.Operation];
+            var operationResultCalculator = this.operationResultsCalculatorsDict[userParameters.Operation];
 
-            var operationResults = operationResultCalucator.CalculateOperationResult(truthTable, dimensions, userParameters, operationValues);
+            var operationResults = operationResultCalculator.CalculateOperationResult(truthTable, dimensions, userParameters, operationValues);
 
-            for (int i = 0; i < dimensions.DimensionRows; i++)
+            for (var i = 0; i < dimensions.DimensionRows; i++)
             {
-                for (int j = 0; j < dimensions.DimensionResultColumns; j++)
+                for (var j = 0; j < dimensions.DimensionResultColumns; j++)
                 {
                     truthTable.ResultValues[i, j] = GetRightNthBit(operationResults[i], dimensions.DimensionResultColumns - j);
                 }
             }
         }
 
-        private int[,] CalculateOperationValues(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
+        private static int[,] CalculateOperationValues(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
         {
-            int[,] operationValues = new int[dimensions.DimensionRows, userParameters.OperandsNumber];
+            var operationValues = new int[dimensions.DimensionRows, userParameters.OperandsNumber];
 
-            int value_counter;
-            for (int i = 0; i < dimensions.DimensionRows; i++)
+            for (var i = 0; i < dimensions.DimensionRows; i++)
             {
-                value_counter = 0;
+                var valueCounter = 0;
 
                 for (int j = 0; j < dimensions.DimensionVariablesColumns; j++)
                 {
                     if (truthTable.VariableValues[i, j] == true)
                     {
-                        operationValues[i, value_counter / userParameters.DigitCapacity] += Convert.ToInt32(Math.Pow(2, (userParameters.DigitCapacity - 1) - j % userParameters.DigitCapacity));
+                        operationValues[i, valueCounter / userParameters.DigitCapacity] += Convert.ToInt32(Math.Pow(2, (userParameters.DigitCapacity - 1) - j % userParameters.DigitCapacity));
                     }
-                    value_counter++;
+                    valueCounter++;
                 }
             }
 
             return operationValues;
         }
 
-        private bool GetRightNthBit(int val, int n)
+        private static bool GetRightNthBit(int val, int n)
         {
-            return ((val & (1 << (n - 1))) >> (n - 1)) != 0;
+            return (val & (1 << (n - 1))) >> (n - 1) != 0;
         }
 
-        private void CalculateModuleLines(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
+        private static void CalculateModuleLines(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
         {
-            if(userParameters.OperationModule != -1)
-            {
-                var operationValues = CalculateOperationValues(truthTable, dimensions, userParameters);
+            if (userParameters.OperationModule == -1) return;
+            
+            var operationValues = CalculateOperationValues(truthTable, dimensions, userParameters);
 
-                for (int i = 0; i < truthTable.DimensionRows; i++)
+            for (var i = 0; i < truthTable.DimensionRows; i++)
+            {
+                truthTable.ModuleRows[i] = true;
+                for (var j = 0; j < userParameters.OperandsNumber; j++)
                 {
-                    truthTable.ModuleRows[i] = true;
-                    for (int j = 0; j < userParameters.OperandsNumber; j++)
+                    if (operationValues[i, j] >= userParameters.OperationModule)
                     {
-                        if (operationValues[i, j] >= userParameters.OperationModule)
-                        {
-                            truthTable.ModuleRows[i] = false;
-                        }
+                        truthTable.ModuleRows[i] = false;
                     }
                 }
             }
         }
         
-        private void CalculateModuleCols(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
+        private static void CalculateModuleCols(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
         {
-            if(userParameters.OperationModule != -1)
+            if (userParameters.OperationModule == -1) return;
+            
+            var operationValues = CalculateOperationValues(truthTable, dimensions, userParameters);
+            var numberOfColumnsToBeTaken = 0;
+
+            if (operationValues[dimensions.DimensionRows - 1, 0] >= userParameters.OperationModule)
             {
-                var operationValues = CalculateOperationValues(truthTable, dimensions, userParameters);
-                int operationValueSize;
-                int operationModuleSize;
-                int numberOfColumnsToBeTaken = 0;
+                var operationValueSize = Convert.ToInt32(Math.Ceiling(Math.Log(operationValues[dimensions.DimensionRows - 1, 0], 2)));
+                var operationModuleSize = Convert.ToInt32(Math.Ceiling(Math.Log(userParameters.OperationModule, 2)));
+                numberOfColumnsToBeTaken = operationValueSize - operationModuleSize;
+            }
 
-                if (operationValues[dimensions.DimensionRows - 1, 0] >= userParameters.OperationModule)
-                {
-                    operationValueSize = Convert.ToInt32(Math.Ceiling(Math.Log(operationValues[dimensions.DimensionRows - 1, 0], 2)));
-                    operationModuleSize = Convert.ToInt32(Math.Ceiling(Math.Log(userParameters.OperationModule, 2)));
-                    numberOfColumnsToBeTaken = operationValueSize - operationModuleSize;
-                }
+            for (var col = 0; col < dimensions.DimensionVariablesColumns; col++)
+            {
+                truthTable.ModuleCols[col] = true;
+            }
 
-                for (int col = 0; col < dimensions.DimensionVariablesColumns; col++)
-                {
-                    truthTable.ModuleCols[col] = true;
-                }
-
-                if(numberOfColumnsToBeTaken > 0)
-                {
-                    for (int operand = 0; operand < userParameters.OperandsNumber; operand++)
-                    {
-                        truthTable.ModuleCols[operand * userParameters.DigitCapacity + numberOfColumnsToBeTaken - 1] = false;
-                    }
-                }
+            if (numberOfColumnsToBeTaken <= 0) return;
+            
+            for (var operand = 0; operand < userParameters.OperandsNumber; operand++)
+            {
+                truthTable.ModuleCols[operand * userParameters.DigitCapacity + numberOfColumnsToBeTaken - 1] = false;
             }
         }
     }

@@ -3,8 +3,6 @@ using BLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static System.Linq.Enumerable;
 
 namespace BLL.Services
@@ -24,28 +22,28 @@ namespace BLL.Services
 
         private void ConstructBinaryMatricesB(Matrices matrices, TruthTable truthTable)
         {
-            int[] f_vector = new int[matrices.SquareDimensions];
-            int[,] binary_matrixB = new int[matrices.SquareDimensions, matrices.SquareDimensions];
+            var fVector = new int[matrices.SquareDimensions];
+            var binaryMatrixB = new int[matrices.SquareDimensions, matrices.SquareDimensions];
 
-            for (int k = 0; k < truthTable.DimensionResultColumns; k++)
+            for (var k = 0; k < truthTable.DimensionResultColumns; k++)
             {
-                for (int m = 0; m < matrices.SquareDimensions; m++)
+                for (var m = 0; m < matrices.SquareDimensions; m++)
                 {
-                    f_vector[m] = truthTable.ResultValues[m, k] ? 1 : 0;
+                    fVector[m] = truthTable.ResultValues[m, k] ? 1 : 0;
                 }
 
-                for (int i = 0; i < matrices.SquareDimensions / 2; i++)
+                for (var i = 0; i < matrices.SquareDimensions / 2; i++)
                 {
-                    for (int j = 0; j < matrices.SquareDimensions / 2; j++)
+                    for (var j = 0; j < matrices.SquareDimensions / 2; j++)
                     {
-                        binary_matrixB[i, j] = f_vector[(i + j) % (matrices.SquareDimensions / 2)];
-                        binary_matrixB[(matrices.SquareDimensions / 2) + i, (matrices.SquareDimensions / 2) + j] = f_vector[(i + j) % (matrices.SquareDimensions / 2)];
-                        binary_matrixB[i, (matrices.SquareDimensions / 2) + j] = f_vector[(i + j) % (matrices.SquareDimensions / 2) + (matrices.SquareDimensions / 2)];
-                        binary_matrixB[(matrices.SquareDimensions / 2) + i, j] = f_vector[(i + j) % (matrices.SquareDimensions / 2) + (matrices.SquareDimensions / 2)];
+                        binaryMatrixB[i, j] = fVector[(i + j) % (matrices.SquareDimensions / 2)];
+                        binaryMatrixB[(matrices.SquareDimensions / 2) + i, (matrices.SquareDimensions / 2) + j] = fVector[(i + j) % (matrices.SquareDimensions / 2)];
+                        binaryMatrixB[i, (matrices.SquareDimensions / 2) + j] = fVector[(i + j) % (matrices.SquareDimensions / 2) + (matrices.SquareDimensions / 2)];
+                        binaryMatrixB[(matrices.SquareDimensions / 2) + i, j] = fVector[(i + j) % (matrices.SquareDimensions / 2) + (matrices.SquareDimensions / 2)];
                     }
                 }
 
-                matrices.MatricesB.Add((int[,])binary_matrixB.Clone());
+                matrices.MatricesB.Add((int[,])binaryMatrixB.Clone());
             }
 
         }
@@ -55,7 +53,7 @@ namespace BLL.Services
             int[,] Z0 = { { 1 } };
             int[,] Z1 = { { 1, 1 }, { 0, 1 } };
 
-            int N = (int)Math.Log(matrices.SquareDimensions, 2);
+            var N = (int)Math.Log(matrices.SquareDimensions, 2);
 
 
             if (N < 1)
@@ -68,40 +66,39 @@ namespace BLL.Services
                 matrices.MatrixZ = Z1;
             }
 
-            if (N > 1)
+            if (N <= 1) return;
+            
+            var arrayOfZ = new List<int[,]>
             {
-                List<int[,]> ArrayOfZ = new List<int[,]>
-                {
-                    Z0,
-                    Z1
-                };
+                Z0,
+                Z1
+            };
 
-                for (int i = 2; i < N + 1; i++)
-                {
-                    ArrayOfZ.Add(KroneckerProduct(ArrayOfZ[i - 1], Z1));
-                }
-                matrices.MatrixZ = (ArrayOfZ[N]);
+            for (var i = 2; i < N + 1; i++)
+            {
+                arrayOfZ.Add(KroneckerProduct(arrayOfZ[i - 1], Z1));
             }
+            matrices.MatrixZ = (arrayOfZ[N]);
         }
 
         private void ConstructBinaryMatricesM(Matrices matrices, TruthTable truthTable)
         {
-            for (int i = 0; i < truthTable.DimensionResultColumns; i++)
+            for (var i = 0; i < truthTable.DimensionResultColumns; i++)
             {
                 matrices.MatricesM.Add(MultiplyMatrices(matrices.MatricesB[i], matrices.MatrixZ, matrices));
                 matrices.MatricesM[i] = ModMatrix(matrices.MatricesM[i], matrices);
             }
         }
 
-        private int[,] MultiplyMatrices(int[,] A, int[,] B, Matrices matrices)
+        private static int[,] MultiplyMatrices(int[,] A, int[,] B, Matrices matrices)
         {
-            int[,] result = new int[matrices.SquareDimensions, matrices.SquareDimensions];
+            var result = new int[matrices.SquareDimensions, matrices.SquareDimensions];
 
-            for (int i = 0; i < matrices.SquareDimensions; ++i)
+            for (var i = 0; i < matrices.SquareDimensions; ++i)
             {
-                for (int j = 0; j < matrices.SquareDimensions; ++j)
+                for (var j = 0; j < matrices.SquareDimensions; ++j)
                 {
-                    for (int k = 0; k < matrices.SquareDimensions; ++k)
+                    for (var k = 0; k < matrices.SquareDimensions; ++k)
                     {
                         result[i, j] += A[i, k] * B[k, j];
                     }
@@ -110,11 +107,11 @@ namespace BLL.Services
             return result;
         }
 
-        private int[,] KroneckerProduct(int[,] left, int[,] right)
+        private static int[,] KroneckerProduct(int[,] left, int[,] right)
         {
-            (int lRows, int lColumns) = (left.GetLength(0), left.GetLength(1));
-            (int rRows, int rColumns) = (right.GetLength(0), right.GetLength(1));
-            int[,] result = new int[lRows * rRows, lColumns * rColumns];
+            var (lRows, lColumns) = (left.GetLength(0), left.GetLength(1));
+            var (rRows, rColumns) = (right.GetLength(0), right.GetLength(1));
+            var result = new int[lRows * rRows, lColumns * rColumns];
 
             foreach (var (r, c) in from r in Range(0, lRows) from c in Range(0, lColumns) select (r, c))
             {
@@ -131,11 +128,11 @@ namespace BLL.Services
             }
         }
 
-        private int[,] ModMatrix(int[,] matr, Matrices matrices)
+        private static int[,] ModMatrix(int[,] matr, Matrices matrices)
         {
-            for (int i = 0; i < matrices.SquareDimensions; i++)
+            for (var i = 0; i < matrices.SquareDimensions; i++)
             {
-                for (int j = 0; j < matrices.SquareDimensions; j++)
+                for (var j = 0; j < matrices.SquareDimensions; j++)
                 {
                     matr[i, j] %= 2;
                 }

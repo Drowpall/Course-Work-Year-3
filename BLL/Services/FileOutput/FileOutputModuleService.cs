@@ -1,8 +1,9 @@
-﻿using BLL.Contracts;
+﻿using System.IO;
+using System.Linq;
+using BLL.Contracts;
 using BLL.Models;
-using System.IO;
 
-namespace BLL.Services
+namespace BLL.Services.FileOutput
 {
     public class FileOutputModuleService : IOutputModuleService
     {
@@ -15,28 +16,26 @@ namespace BLL.Services
 
         private static void WriteFileTruthTableValuesModule(StreamWriter outputFile, TruthTable truthTable, Dimensions dimensions)
         {
-            for (int i = 0; i < dimensions.DimensionRows; i++)
+            for (var i = 0; i < dimensions.DimensionRows; i++)
             {
-                if (truthTable.ModuleRows[i])
+                if (!truthTable.ModuleRows[i]) continue;
+                
+                for (var j = 0; j < dimensions.DimensionVariablesColumns; j++)
                 {
-
-                    for (int j = 0; j < dimensions.DimensionVariablesColumns; j++)
+                    if (truthTable.ModuleCols[j])
                     {
-                        if (truthTable.ModuleCols[j])
-                        {
-                            outputFile.Write(truthTable.VariableValues[i, j].ToInt());
-                        }
+                        outputFile.Write(truthTable.VariableValues[i, j].ToInt());
                     }
-
-                    outputFile.Write(" ");
-
-                    for (int j = 0; j < dimensions.DimensionResultColumns; j++)
-                    {
-                        outputFile.Write(truthTable.ResultValues[i, j].ToInt());
-                    }
-
-                    outputFile.WriteLine();
                 }
+
+                outputFile.Write(" ");
+
+                for (var j = 0; j < dimensions.DimensionResultColumns; j++)
+                {
+                    outputFile.Write(truthTable.ResultValues[i, j].ToInt());
+                }
+
+                outputFile.WriteLine();
             }
             outputFile.WriteLine($".e");
         }
@@ -48,32 +47,14 @@ namespace BLL.Services
             outputFile.WriteLine($".p {CountNumberOfModuleRows(truthTable)}");
         }
 
-        private int CountNumberOfModuleRows(TruthTable truthTable)
+        private static int CountNumberOfModuleRows(TruthTable truthTable)
         {
-            int count = 0;
-            foreach (bool one in truthTable.ModuleRows)
-            {
-                if (one)
-                {
-                    count++;
-                }
-            }
-
-            return count;
+            return truthTable.ModuleRows.Count(one => one);
         }
 
-        private int CountNumberOfModuleCols(TruthTable truthTable)
+        private static int CountNumberOfModuleCols(TruthTable truthTable)
         {
-            int count = 0;
-            foreach (bool one in truthTable.ModuleCols)
-            {
-                if (one)
-                {
-                    count++;
-                }
-            }
-
-            return count;
+            return truthTable.ModuleCols.Count(one => one);
         }
     }
 }

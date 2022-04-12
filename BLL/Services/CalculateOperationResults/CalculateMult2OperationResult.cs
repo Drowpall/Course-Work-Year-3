@@ -1,11 +1,6 @@
 ﻿using BLL.Contracts;
 using BLL.Models;
 using DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Services.CalculateOperationResults
 {
@@ -24,7 +19,7 @@ namespace BLL.Services.CalculateOperationResults
                 {
                     operationResults[k] *= operationValues[k, m];
                 }
-                operationResults[k] = operationResults[k] % userParameters.OperationModule;
+                operationResults[k] %= userParameters.OperationModule;
             }
             return operationResults;
         }

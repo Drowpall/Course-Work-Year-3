@@ -1,6 +1,5 @@
 ﻿using BLL.Contracts;
 using BLL.Models;
-using DAL.Contracts;
 using DAL.Models;
 using System;
 
@@ -27,14 +26,12 @@ namespace BLL.Services
             };
         }
 
-        public int GetIterationSize(Operation operation, int digitCapacity, int operandsNumber, int operationModule)
+        private static int GetIterationSize(Operation operation, int digitCapacity, int operandsNumber, int operationModule)
         {
-            int iterationSize; 
-
             switch (operation)
             {
                 case Operation.Sum:
-                    iterationSize = Convert.ToInt32(Math.Ceiling(Math.Log((Math.Pow(2, digitCapacity) - 1) * operandsNumber, 2)));
+                    var iterationSize = Convert.ToInt32(Math.Ceiling(Math.Log((Math.Pow(2, digitCapacity) - 1) * operandsNumber, 2)));
                     if (digitCapacity == 1)
                     {
                         iterationSize += 1;

@@ -1,10 +1,8 @@
 ﻿using BLL.Contracts;
 using BLL.Contracts.IOutput;
 using BLL.Models;
-using Course_Work_v1;
 using DAL.Contracts;
 using DAL.Models;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -82,7 +80,7 @@ namespace BLL.Services
             var truthTable = TruthTableCalculator.CalculateTruthTable(dimensions, userParameters);
 
            // using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableExtended)))
-            using (StreamWriter outputFile = File.CreateText(Globals.TruthTableExtended))
+            using (var outputFile = File.CreateText(Globals.TruthTableExtended))
             {
                 OutputExtendedService.OutputExtendedTruthTable(outputFile, truthTable, userParameters, dimensions);
                 Thread.Sleep(500);
@@ -90,7 +88,7 @@ namespace BLL.Services
             }
 
             //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableReduced)))
-            using (StreamWriter outputFile = File.CreateText(Globals.TruthTableReduced))
+            using (var outputFile = File.CreateText(Globals.TruthTableReduced))
             {
                 OutputReducedService.OutputReducedTruthTable(outputFile, truthTable, dimensions);
                 Thread.Sleep(500);
@@ -100,7 +98,7 @@ namespace BLL.Services
             if (userParameters.OperationModule != -1)
             {
                 //using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, Globals.TruthTableModule)))
-                using (StreamWriter outputFile = new StreamWriter(Globals.TruthTableModule))
+                using (var outputFile = new StreamWriter(Globals.TruthTableModule))
                 {
                     OutputModuleService.OutputModuleTruthTable(outputFile, truthTable, userParameters, dimensions);
                     Thread.Sleep(500);
@@ -126,10 +124,10 @@ namespace BLL.Services
             var matrices = MatricesConstructor.CalculateMatrices(truthTable, dimensions, userParameters);
 
             PolynomialEvaluationService.EvaluatePolynomialShortest(truthTable, matrices);
-            PolynomialEvaluationService.EvaluatePolynomialMinimal(truthTable, matrices, userParameters);
+            PolynomialEvaluationService.EvaluatePolynomialMinimal(matrices, userParameters);
 
             //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.Matrices)))
-            using (StreamWriter outputFile = File.CreateText(Globals.Matrices))
+            using (var outputFile = File.CreateText(Globals.Matrices))
             {
                 OutputMatricesService.OutputMatrices(outputFile, matrices);
                 Thread.Sleep(500);
@@ -137,7 +135,7 @@ namespace BLL.Services
             }
 
             //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomials)))
-            using (StreamWriter outputFile = File.CreateText(Globals.ShortestPolynomials))
+            using (var outputFile = File.CreateText(Globals.ShortestPolynomials))
             {
                // OutputPolynomialsService.OutputShortestPolynomialsVectors(outputFile, matrices);
                 OutputPolynomialsService.OutputShortestPolynomialsText(outputFile, matrices, userParameters, dimensions);
@@ -147,7 +145,6 @@ namespace BLL.Services
                 Thread.Sleep(500);
                 Process.Start(Globals.ShortestPolynomials);
             }
-
         }
     }
 }

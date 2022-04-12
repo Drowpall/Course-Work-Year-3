@@ -4,6 +4,6 @@ namespace BLL.Contracts
 {
     public interface ITruthTableCalculator
     {
-        TruthTable CalculateTruthTable(Dimensions dimensions, UserParameters userParemeters);
+        TruthTable CalculateTruthTable(Dimensions dimensions, UserParameters userParameters);
     }
 }
