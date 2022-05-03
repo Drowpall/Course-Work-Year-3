@@ -19,7 +19,7 @@ namespace Course_Work_v1
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
             calculationService.CalculatePolynomials();
-            this.NavigationService.Navigate(new Page5());
+            this.NavigationService.Navigate(kernel.Get<Page5>());
         }
     }
 }

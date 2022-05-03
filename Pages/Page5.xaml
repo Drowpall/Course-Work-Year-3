@@ -12,7 +12,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="500"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
@@ -28,5 +28,9 @@
                    Grid.Column="2" Grid.Row="2"
                    FontFamily="Segoe UI Light" FontSize="36"
                    Grid.ColumnSpan="2"/>
+        <Button x:Name="SubmitButton" Height="25" Width="400" Content="Generate HDL code"
+                Grid.Column="2" Grid.Row="3"
+                Margin="80,30,10,5" FontFamily="Segoe UI Light" FontSize="15" 
+                Click="CalculateButton_Click" HorizontalAlignment="Left" />
     </Grid>
 </Page>

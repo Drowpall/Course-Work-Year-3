@@ -15,5 +15,8 @@ namespace BLL.Contracts.IOutput
 
         void OutputShortestPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
         void OutputMinimalPolynomialsText(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
+        
+        void OutputShortestPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
+        void OutputMinimalPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
     }
 }

@@ -4,5 +4,6 @@
     {
         void DrawTruthTable();
         void CalculatePolynomials();
+        void GenerateHdl();
     }
 }

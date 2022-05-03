@@ -146,5 +146,39 @@ namespace BLL.Services
                 Process.Start(Globals.ShortestPolynomials);
             }
         }
+
+        public void GenerateHdl()
+        {
+            var userParameters = new UserParameters()
+            {
+                DigitCapacity = DigitCapacity,
+                OperandsNumber = OperandsNumber,
+                OperationModule = OperationModule,
+                Operation = Operation
+            };
+
+            var dimensions = DimensionsService.GetDimensions(userParameters);
+
+            var truthTable = TruthTableCalculator.CalculateTruthTable(dimensions, userParameters);
+
+            var matrices = MatricesConstructor.CalculateMatrices(truthTable, dimensions, userParameters);
+
+            PolynomialEvaluationService.EvaluatePolynomialShortest(truthTable, matrices);
+            PolynomialEvaluationService.EvaluatePolynomialMinimal(matrices, userParameters);
+
+            using (var outputFile = File.CreateText(Globals.MinimalPolynomialsHdl))
+            {
+                OutputPolynomialsService.OutputMinimalPolynomialsHdl(outputFile, matrices, userParameters, dimensions);
+                Thread.Sleep(500);
+                Process.Start(Globals.MinimalPolynomialsHdl);
+            }
+            
+            using (var outputFile = File.CreateText(Globals.ShortestPolynomialsHdl))
+            {
+                OutputPolynomialsService.OutputShortestPolynomialsHdl(outputFile, matrices, userParameters, dimensions);
+                Thread.Sleep(500);
+                Process.Start(Globals.ShortestPolynomialsHdl);
+            }
+        }
     }
 }
