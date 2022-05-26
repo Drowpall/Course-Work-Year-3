@@ -179,6 +179,20 @@ namespace BLL.Services
                 Thread.Sleep(500);
                 Process.Start(Globals.ShortestPolynomialsHdl);
             }
+            
+            using (var outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.MinimalPolynomialsC)))
+            {
+                OutputPolynomialsService.OutputMinimalPolynomialsC(outputFile, matrices, userParameters, dimensions);
+                Thread.Sleep(500);
+                Process.Start(Globals.MinimalPolynomialsC);
+            }
+            
+            using (var outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomialsC)))
+            {
+                OutputPolynomialsService.OutputShortestPolynomialsC(outputFile, matrices, userParameters, dimensions);
+                Thread.Sleep(500);
+                Process.Start(Globals.ShortestPolynomialsC);
+            }
         }
     }
 }

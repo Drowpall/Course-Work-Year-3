@@ -286,19 +286,19 @@ namespace BLL.Services.FileOutput
             outputFile.WriteLine("endmodule");
         }
         
-        public void OutputShortestPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
+                public void OutputShortestPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
             Dimensions dimensions)
         {
             outputFile.WriteLine("//////////////////////////////////////////");
-            outputFile.WriteLine("// Auto generated code: MinimalPolynomials");
+            outputFile.WriteLine("// Auto generated code: ShortestPolynomials");
             outputFile.WriteLine("// " + DateTime.Now);
             outputFile.WriteLine("//////////////////////////////////////////");
             outputFile.WriteLine();
             outputFile.WriteLine();
-            outputFile.WriteLine("module Minimal(");
+            outputFile.WriteLine("module Shortest(");
 
             var numberOfInVars = userParameters.DigitCapacity * userParameters.OperandsNumber;
-            var numberOfOutVars = matrices.minimalPolynomials.Select(vector => vector).Count();
+            var numberOfOutVars = matrices.shortestPolynomials.Select(vector => vector).Count();
             
             for (var i = 0; i < numberOfInVars; i ++)
             {
@@ -378,6 +378,192 @@ namespace BLL.Services.FileOutput
             }
             
             outputFile.WriteLine("endmodule");
+        }
+
+        public void OutputShortestPolynomialsC(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
+            Dimensions dimensions)
+        {
+            outputFile.WriteLine("//////////////////////////////////////////");
+            outputFile.WriteLine("// Auto generated code: ShortestPolynomials");
+            outputFile.WriteLine("// " + DateTime.Now);
+            outputFile.WriteLine("//////////////////////////////////////////");
+            outputFile.WriteLine();
+            outputFile.WriteLine();
+            outputFile.WriteLine("int main(");
+
+            var numberOfInVars = userParameters.DigitCapacity * userParameters.OperandsNumber;
+            var numberOfOutVars = matrices.shortestPolynomials.Select(vector => vector).Count();
+            
+            for (var i = 0; i < numberOfInVars; i ++)
+            {
+                outputFile.WriteLine($"\tbool IN{i+1},");
+            }
+            
+            for (var j = 0; j < numberOfOutVars - 1; j ++)
+            {
+                outputFile.WriteLine($"\tbool OUT{j+1},");
+            }
+            
+            outputFile.WriteLine($"\tbool OUT{numberOfOutVars}");
+            outputFile.WriteLine(");");
+            outputFile.WriteLine("{");
+
+            var vectorNumber = 0;
+            foreach (var vector in matrices.shortestPolynomials)
+            {
+                outputFile.Write($"\tOUT{vectorNumber + 1} = ");
+                var numberOfSuitablePolynomials = 0;
+
+                var negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
+                var polarity = matrices.numbersOfLinesShortest[vectorNumber];
+                for (var position = 0; polarity > 0; position++)
+                {
+                    if (polarity % 2 == 1)
+                    {
+                        negativePos[position] = 1;
+                    }
+                    polarity /= 2;
+                }
+                for (var vectorElement = 0; vectorElement < dimensions.DimensionRows; vectorElement++)
+                {
+                    var addSign = false;
+                    if (vector[vectorElement] != 1) continue;
+                    
+                    if (numberOfSuitablePolynomials != 0)
+                    {
+                        outputFile.Write(" | ");
+                    }
+
+                    for (var i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
+                    {
+                        if (negativePos[i] == 0)
+                        {
+                            if (vectorElement != 0 && !GetRightNthBit(vectorElement, i + 1)) continue;
+                            
+                            if (addSign)
+                            {
+                                outputFile.Write(" & ");
+                            }
+                            outputFile.Write($"IN{userParameters.OperandsNumber * userParameters.DigitCapacity - i}");
+                            addSign = true;
+                        }
+                        else
+                        {
+                            if (vectorElement != 0 && !GetRightNthBit(vectorElement, i + 1)) continue;
+                            
+                            if (addSign)
+                            {
+                                outputFile.Write(" & ");
+                            }
+                            outputFile.Write($"!IN{userParameters.OperandsNumber * userParameters.DigitCapacity - i}");
+                            addSign = true;
+                        }
+
+                    }
+
+                    numberOfSuitablePolynomials++;
+                }
+                
+                outputFile.WriteLine(";");
+                outputFile.WriteLine("\t");
+                vectorNumber++;
+            }
+            
+            outputFile.WriteLine("\treturn 0");
+            outputFile.WriteLine("}");
+        }
+
+        public void OutputMinimalPolynomialsC(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
+            Dimensions dimensions)
+        {
+            outputFile.WriteLine("//////////////////////////////////////////");
+            outputFile.WriteLine("// Auto generated code: MinimalPolynomials");
+            outputFile.WriteLine("// " + DateTime.Now);
+            outputFile.WriteLine("//////////////////////////////////////////");
+            outputFile.WriteLine();
+            outputFile.WriteLine();
+            outputFile.WriteLine("int main(");
+
+            var numberOfInVars = userParameters.DigitCapacity * userParameters.OperandsNumber;
+            var numberOfOutVars = matrices.minimalPolynomials.Select(vector => vector).Count();
+            
+            for (var i = 0; i < numberOfInVars; i ++)
+            {
+                outputFile.WriteLine($"\tbool IN{i+1},");
+            }
+            
+            for (var j = 0; j < numberOfOutVars - 1; j ++)
+            {
+                outputFile.WriteLine($"\tbool OUT{j+1},");
+            }
+            
+            outputFile.WriteLine($"\tbool OUT{numberOfOutVars}");
+            outputFile.WriteLine(");");
+            outputFile.WriteLine("{");
+
+            var vectorNumber = 0;
+            foreach (var vector in matrices.minimalPolynomials)
+            {
+                outputFile.Write($"\tOUT{vectorNumber + 1} = ");
+                var numberOfSuitablePolynomials = 0;
+
+                var negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
+                var polarity = matrices.numbersOfLinesShortest[vectorNumber];
+                for (var position = 0; polarity > 0; position++)
+                {
+                    if (polarity % 2 == 1)
+                    {
+                        negativePos[position] = 1;
+                    }
+                    polarity /= 2;
+                }
+                for (var vectorElement = 0; vectorElement < dimensions.DimensionRows; vectorElement++)
+                {
+                    var addSign = false;
+                    if (vector[vectorElement] != 1) continue;
+                    
+                    if (numberOfSuitablePolynomials != 0)
+                    {
+                        outputFile.Write(" | ");
+                    }
+
+                    for (var i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
+                    {
+                        if (negativePos[i] == 0)
+                        {
+                            if (vectorElement != 0 && !GetRightNthBit(vectorElement, i + 1)) continue;
+                            
+                            if (addSign)
+                            {
+                                outputFile.Write(" & ");
+                            }
+                            outputFile.Write($"IN{userParameters.OperandsNumber * userParameters.DigitCapacity - i}");
+                            addSign = true;
+                        }
+                        else
+                        {
+                            if (vectorElement != 0 && !GetRightNthBit(vectorElement, i + 1)) continue;
+                            
+                            if (addSign)
+                            {
+                                outputFile.Write(" & ");
+                            }
+                            outputFile.Write($"!IN{userParameters.OperandsNumber * userParameters.DigitCapacity - i}");
+                            addSign = true;
+                        }
+
+                    }
+
+                    numberOfSuitablePolynomials++;
+                }
+                
+                outputFile.WriteLine(";");
+                outputFile.WriteLine("\t");
+                vectorNumber++;
+            }
+            
+            outputFile.WriteLine("\treturn 0");
+            outputFile.WriteLine("}");
         }
     }
 }

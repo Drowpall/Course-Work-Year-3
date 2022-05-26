@@ -10,5 +10,7 @@
         public const string ShortestPolynomials = "PolynomialsShort.txt";
         public const string ShortestPolynomialsHdl = "PolynomialsShort.v";
         public const string MinimalPolynomialsHdl = "PolynomialsMinimal.v";
+        public const string ShortestPolynomialsC = "PolynomialsMinimal.c";
+        public const string MinimalPolynomialsC = "PolynomialsMinimal.c";
     }
 }
