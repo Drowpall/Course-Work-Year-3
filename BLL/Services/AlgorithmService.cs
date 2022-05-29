@@ -58,8 +58,7 @@ namespace BLL.Services
 
         public IOutputMatricesService OutputMatricesService { get; set; }
         public IOutputPolynomialsService OutputPolynomialsService { get; set; }
-
-
+        
         private Operation Operation => OperationRepository.GetOperation();
         private int OperandsNumber => OperandsNumberRepository.GetOperandsNumber();
         private int DigitCapacity => DigitCapacityRepository.GetDigitCapacity();
@@ -79,15 +78,26 @@ namespace BLL.Services
 
             var truthTable = TruthTableCalculator.CalculateTruthTable(dimensions, userParameters);
 
-           // using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableExtended)))
+            /*if (userParameters.OperandsNumber * userParameters.DigitCapacity >= 12)
+            {
+                using (var outputFile = File.CreateText(Globals.DNFpresentation))
+                {
+                    OutputExtendedService.OutputDNF(outputFile, truthTable, userParameters);
+                }
+                
+                Thread.Sleep(500);
+                Process.Start(Globals.DNFpresentation);
+
+                return;
+            }*/
+            
             using (var outputFile = File.CreateText(Globals.TruthTableExtended))
             {
                 OutputExtendedService.OutputExtendedTruthTable(outputFile, truthTable, userParameters, dimensions);
                 Thread.Sleep(500);
                 Process.Start(Globals.TruthTableExtended);
             }
-
-            //using (StreamWriter outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.TruthTableReduced)))
+            
             using (var outputFile = File.CreateText(Globals.TruthTableReduced))
             {
                 OutputReducedService.OutputReducedTruthTable(outputFile, truthTable, dimensions);
@@ -95,9 +105,9 @@ namespace BLL.Services
                 Process.Start(Globals.TruthTableReduced);
             }
 
-            if (userParameters.OperationModule != -1)
+            if (userParameters.OperationModule == -1) return;
+            
             {
-                //using (StreamWriter outputFile = new StreamWriter(Path.Combine(Globals.docPath, Globals.TruthTableModule)))
                 using (var outputFile = new StreamWriter(Globals.TruthTableModule))
                 {
                     OutputModuleService.OutputModuleTruthTable(outputFile, truthTable, userParameters, dimensions);
@@ -106,6 +116,8 @@ namespace BLL.Services
                 }
             }
         }
+
+        
 
         public void CalculatePolynomials()
         {
@@ -180,14 +192,14 @@ namespace BLL.Services
                 Process.Start(Globals.ShortestPolynomialsHdl);
             }
             
-            using (var outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.MinimalPolynomialsC)))
+            using (var outputFile = File.CreateText(Path.Combine(Globals.DocPath, Globals.MinimalPolynomialsC)))
             {
                 OutputPolynomialsService.OutputMinimalPolynomialsC(outputFile, matrices, userParameters, dimensions);
                 Thread.Sleep(500);
                 Process.Start(Globals.MinimalPolynomialsC);
             }
             
-            using (var outputFile = File.CreateText(Path.Combine(Globals.docPath, Globals.ShortestPolynomialsC)))
+            using (var outputFile = File.CreateText(Path.Combine(Globals.DocPath, Globals.ShortestPolynomialsC)))
             {
                 OutputPolynomialsService.OutputShortestPolynomialsC(outputFile, matrices, userParameters, dimensions);
                 Thread.Sleep(500);

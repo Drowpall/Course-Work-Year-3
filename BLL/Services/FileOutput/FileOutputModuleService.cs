@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using BLL.Contracts;
+using BLL.Contracts.IOutput;
 using BLL.Models;
 
 namespace BLL.Services.FileOutput

@@ -1,7 +1,7 @@
-﻿using BLL.Models;
-using System.IO;
+﻿using System.IO;
+using BLL.Models;
 
-namespace BLL.Contracts
+namespace BLL.Contracts.IOutput
 {
     public interface IOutputModuleService
     {
