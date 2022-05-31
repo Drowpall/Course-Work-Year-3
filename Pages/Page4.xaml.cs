@@ -2,6 +2,7 @@
 using Ninject;
 using System.Windows;
 using System.Windows.Controls;
+using BLL.Services;
 
 namespace Course_Work_v1
 {
@@ -18,7 +19,7 @@ namespace Course_Work_v1
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            calculationService.CalculatePolynomials();
+            calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ShortestPolynomials);
             this.NavigationService.Navigate(kernel.Get<Page5>());
         }
     }

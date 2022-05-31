@@ -1,9 +1,12 @@
-﻿namespace BLL.Contracts
+﻿using BLL.Services;
+
+namespace BLL.Contracts
 {
     public interface IAlgorithmService
     {
-        void DrawTruthTable();
+        void AlgorithmMain(AlgorithmService.AlgorithmOperation selectOutputFormat);
+        /*void DrawTruthTable();
         void CalculatePolynomials();
-        void GenerateHdl();
+        void GenerateHdl();*/
     }
 }

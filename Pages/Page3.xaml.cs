@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using BLL.Contracts;
+using BLL.Services;
 using Ninject;
 
 namespace Course_Work_v1
@@ -20,7 +21,9 @@ namespace Course_Work_v1
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            calculationService.DrawTruthTable();
+            calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ExtendedTruthTable);
+            calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ReducedTruthTable);
+            calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ModuleTruthTable);
             this.NavigationService.Navigate(kernel.Get<Page4>());
         }
 

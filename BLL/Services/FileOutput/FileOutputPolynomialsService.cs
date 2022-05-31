@@ -286,7 +286,7 @@ namespace BLL.Services.FileOutput
             outputFile.WriteLine("endmodule");
         }
         
-                public void OutputShortestPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
+        public void OutputShortestPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
             Dimensions dimensions)
         {
             outputFile.WriteLine("//////////////////////////////////////////");
@@ -383,30 +383,34 @@ namespace BLL.Services.FileOutput
         public void OutputShortestPolynomialsC(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
             Dimensions dimensions)
         {
+            outputFile.WriteLine("#include \"header.h\"\n");
             outputFile.WriteLine("//////////////////////////////////////////");
             outputFile.WriteLine("// Auto generated code: ShortestPolynomials");
             outputFile.WriteLine("// " + DateTime.Now);
             outputFile.WriteLine("//////////////////////////////////////////");
             outputFile.WriteLine();
             outputFile.WriteLine();
-            outputFile.WriteLine("int main(");
+            outputFile.Write("void ShortestPolynomials(");
 
             var numberOfInVars = userParameters.DigitCapacity * userParameters.OperandsNumber;
             var numberOfOutVars = matrices.shortestPolynomials.Select(vector => vector).Count();
             
             for (var i = 0; i < numberOfInVars; i ++)
             {
-                outputFile.WriteLine($"\tbool IN{i+1},");
+                if(i != 0) outputFile.Write(", ");
+                outputFile.Write($"bool IN{i+1}");
             }
             
-            for (var j = 0; j < numberOfOutVars - 1; j ++)
+            for (var j = 0; j < numberOfOutVars; j ++)
             {
-                outputFile.WriteLine($"\tbool OUT{j+1},");
+                outputFile.Write($", bool& OUT{j+1}");
+                
+                if (j != numberOfOutVars - 1) continue;
+                
+                outputFile.WriteLine(")");
+                outputFile.WriteLine("{");
+                
             }
-            
-            outputFile.WriteLine($"\tbool OUT{numberOfOutVars}");
-            outputFile.WriteLine(");");
-            outputFile.WriteLine("{");
 
             var vectorNumber = 0;
             foreach (var vector in matrices.shortestPolynomials)
@@ -464,42 +468,46 @@ namespace BLL.Services.FileOutput
                     numberOfSuitablePolynomials++;
                 }
                 
-                outputFile.WriteLine(";");
+                outputFile.Write(";");
                 outputFile.WriteLine("\t");
                 vectorNumber++;
             }
             
-            outputFile.WriteLine("\treturn 0");
+            outputFile.WriteLine("\treturn;");
             outputFile.WriteLine("}");
         }
 
         public void OutputMinimalPolynomialsC(StreamWriter outputFile, Matrices matrices, UserParameters userParameters,
             Dimensions dimensions)
         {
+            outputFile.WriteLine("#include \"header.h\"\n");
             outputFile.WriteLine("//////////////////////////////////////////");
             outputFile.WriteLine("// Auto generated code: MinimalPolynomials");
             outputFile.WriteLine("// " + DateTime.Now);
             outputFile.WriteLine("//////////////////////////////////////////");
             outputFile.WriteLine();
             outputFile.WriteLine();
-            outputFile.WriteLine("int main(");
+            outputFile.Write("void MinimalPolynomials(");
 
             var numberOfInVars = userParameters.DigitCapacity * userParameters.OperandsNumber;
             var numberOfOutVars = matrices.minimalPolynomials.Select(vector => vector).Count();
             
             for (var i = 0; i < numberOfInVars; i ++)
             {
-                outputFile.WriteLine($"\tbool IN{i+1},");
+                if(i != 0) outputFile.Write(", ");
+                outputFile.Write($"bool IN{i+1}");
             }
             
-            for (var j = 0; j < numberOfOutVars - 1; j ++)
+            for (var j = 0; j < numberOfOutVars; j ++)
             {
-                outputFile.WriteLine($"\tbool OUT{j+1},");
+                outputFile.Write($", bool& OUT{j+1}");
+                
+                if (j != numberOfOutVars - 1) continue;
+                
+                outputFile.WriteLine(")");
+                outputFile.WriteLine("{");
+                
             }
-            
-            outputFile.WriteLine($"\tbool OUT{numberOfOutVars}");
-            outputFile.WriteLine(");");
-            outputFile.WriteLine("{");
 
             var vectorNumber = 0;
             foreach (var vector in matrices.minimalPolynomials)
@@ -557,13 +565,18 @@ namespace BLL.Services.FileOutput
                     numberOfSuitablePolynomials++;
                 }
                 
-                outputFile.WriteLine(";");
+                outputFile.Write(";");
                 outputFile.WriteLine("\t");
                 vectorNumber++;
             }
             
-            outputFile.WriteLine("\treturn 0");
+            outputFile.WriteLine("\treturn;");
             outputFile.WriteLine("}");
+        }
+        
+        public void OutputTestBench(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions)
+        {
+            throw new NotImplementedException();
         }
     }
 }
