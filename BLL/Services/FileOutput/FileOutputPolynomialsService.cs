@@ -435,7 +435,7 @@ namespace BLL.Services.FileOutput
                     
                     if (numberOfSuitablePolynomials != 0)
                     {
-                        outputFile.Write(" | ");
+                        outputFile.Write(" ^ ");
                     }
 
                     for (var i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
@@ -532,7 +532,7 @@ namespace BLL.Services.FileOutput
                     
                     if (numberOfSuitablePolynomials != 0)
                     {
-                        outputFile.Write(" | ");
+                        outputFile.Write(" ^ ");
                     }
 
                     for (var i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
