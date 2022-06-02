@@ -106,6 +106,7 @@ namespace BLL.Services
                             
                             break;
                         case Operation.Mult:
+                            rowOperationResult = 1;
                             for (var i = 0; i < userParameters.OperandsNumber; i++)
                             {
                                 rowOperationResult *= operandsValues[i];
@@ -113,6 +114,7 @@ namespace BLL.Services
                             
                             break;
                         case Operation.Mult2:
+                            rowOperationResult = 1;
                             for (var i = 0; i < userParameters.OperandsNumber; i++)
                             {
                                 rowOperationResult *= operandsValues[i];

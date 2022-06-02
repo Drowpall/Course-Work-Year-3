@@ -107,15 +107,18 @@ namespace BLL.Services.FileOutput
                 {
                     if (resultCols.ToList()[i][j]) // If vector's element is 1
                     {
+                        var isFirstVariable = true;
                         for (var k = 0; k < numberOfDigits; k++)  // for reach X
                         {
                             if (GetRightNthBit(j, numberOfDigits - k)) // if coef A is 1
                             {
-                                outputFile.Write($"X{k + 1}");
+                                if(!isFirstVariable) outputFile.Write("& ");
+                                outputFile.Write($"X{k + 1} ");
+                                isFirstVariable = false;
                             }
                         }
 
-                        outputFile.WriteLine();
+                        outputFile.WriteLine(" ^");
                     }
                 }
             }
@@ -172,7 +175,7 @@ namespace BLL.Services.FileOutput
                     
                     if (numberOfSuitablePolynomials != 0)
                     {
-                        outputFile.Write(" ^ ");
+                        outputFile.Write("^");
                     }
 
                     for (var i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)

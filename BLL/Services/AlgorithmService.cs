@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BLL.Contracts;
 using BLL.Contracts.IOutput;
 using BLL.Models;
@@ -68,6 +69,7 @@ namespace BLL.Services
         private Dimensions Dimensions { get; set; }
         private TruthTable TruthTable { get; set; }
         private Matrices Matrices { get; set; }
+        private IEnumerable<bool[]> ResultCols { get; set; }
 
         public enum AlgorithmOperation
         {
@@ -99,15 +101,17 @@ namespace BLL.Services
             
             if (userParameters.DigitCapacity * userParameters.OperandsNumber >= 10)
             {
-                var resultCols = TruthTableCalculator.CalculateTruthTableComplex(Dimensions, userParameters);
+                if (ResultCols != null) return;
+                
+                ResultCols = TruthTableCalculator.CalculateTruthTableComplex(Dimensions, userParameters);
                 
                 using (var outputFile = File.CreateText(Globals.PolynomialsComplex))
                 {
-                    OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, resultCols, userParameters, Dimensions);
+                    OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, ResultCols, userParameters, Dimensions);
                     Thread.Sleep(500);
                     Process.Start(Globals.PolynomialsComplex);
                 }
-                
+
                 return;
             }
             
