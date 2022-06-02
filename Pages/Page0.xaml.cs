@@ -21,7 +21,7 @@ namespace Course_Work_v1
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(kernel.Get<Page1>());
+            NavigationService?.Navigate(kernel.Get<Page1>());
         }
 
         private void operation_sum2_Checked(object sender, RoutedEventArgs e)

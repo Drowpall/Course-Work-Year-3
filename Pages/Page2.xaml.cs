@@ -32,17 +32,17 @@ namespace Course_Work_v1
 
                 if(operation == Operation.Sum2 || operation == Operation.Mult2)
                 {
-                    this.NavigationService.Navigate(kernel.Get<Page2_5>());
+                    NavigationService?.Navigate(kernel.Get<Page2_5>());
                 }
                 else
                 {
-                    this.NavigationService.Navigate(kernel.Get<Page3>());
+                    NavigationService?.Navigate(kernel.Get<Page3>());
                 }
             }
             else
             {
                 MessageBox.Show($"Invalid input. Given input: {digitCapacity.Text}. Please specify an integer instead.");
-                this.NavigationService.Navigate(kernel.Get<Page2>());
+                NavigationService?.Navigate(kernel.Get<Page2>());
             }
         }
     }

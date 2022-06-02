@@ -18,11 +18,6 @@ namespace Course_Work_v1
             InitializeComponent();
         }
 
-        private void CalculateButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void GenerateHdlButton_Click(object sender, RoutedEventArgs e)
         {
             calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.MinimalPolyHdl);

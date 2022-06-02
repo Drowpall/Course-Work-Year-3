@@ -91,11 +91,26 @@ namespace BLL.Services
                 Operation = Operation
             };
 
+                        
             if (Dimensions == null)
             {
                 Dimensions = DimensionsService.GetDimensions(userParameters);
             }
-
+            
+            if (userParameters.DigitCapacity * userParameters.OperandsNumber >= 10)
+            {
+                var resultCols = TruthTableCalculator.CalculateTruthTableComplex(Dimensions, userParameters);
+                
+                using (var outputFile = File.CreateText(Globals.PolynomialsComplex))
+                {
+                    OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, resultCols, userParameters, Dimensions);
+                    Thread.Sleep(500);
+                    Process.Start(Globals.PolynomialsComplex);
+                }
+                
+                return;
+            }
+            
             if (TruthTable == null)
             {
                 TruthTable = TruthTableCalculator.CalculateTruthTable(Dimensions, userParameters);
@@ -220,6 +235,13 @@ namespace BLL.Services
                     throw new ArgumentOutOfRangeException(nameof(selectOutputFormat), selectOutputFormat, null);
                 }
             }
+        }
+
+        public void CleanAlgorithm()
+        {
+            TruthTable = null;
+            Dimensions = null;
+            Matrices = null;
         }
     }
 }

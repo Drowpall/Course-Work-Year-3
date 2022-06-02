@@ -4,7 +4,7 @@ namespace BLL.Models
 {
     public class Matrices
     {
-        public int SquareDimensions { get; private set; }
+        public long SquareDimensions { get; private set; }
         public List<int[,]> MatricesB { get; private set; }
         public List<int[,]> MatricesM { get; private set; }
 

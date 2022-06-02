@@ -8,6 +8,7 @@
         public const string TruthTableReduced = "TruthTable1.txt";
         public const string TruthTableModule = "TruthTable2.txt";
         public const string Matrices = "Matrices.txt";
+        public const string PolynomialsComplex = "PolynomialsComplex.txt";
         public const string ShortestPolynomials = "PolynomialsShort.txt";
         public const string ShortestPolynomialsHdl = "PolynomialsShort.v";
         public const string MinimalPolynomialsHdl = "PolynomialsMinimal.v";

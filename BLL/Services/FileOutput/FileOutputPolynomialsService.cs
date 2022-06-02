@@ -1,6 +1,7 @@
 ﻿using BLL.Contracts.IOutput;
 using BLL.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -92,6 +93,31 @@ namespace BLL.Services.FileOutput
                 }
                 outputFile.WriteLine();
                 vectorNumber++;
+            }
+        }
+
+        public void OutputComplexPolynomialsText(StreamWriter outputFile, IEnumerable<bool[]> resultCols, UserParameters userParameters,
+            Dimensions dimensions)
+        {
+            var numberOfDigits = userParameters.DigitCapacity * userParameters.OperandsNumber;
+            
+            for (var i = 0; i < resultCols.Count(); i++) // for reach S[i]
+            {
+                for (var j = 0; j < dimensions.DimensionRows; j++) // for each row
+                {
+                    if (resultCols.ToList()[i][j]) // If vector's element is 1
+                    {
+                        for (var k = 0; k < numberOfDigits; k++)  // for reach X
+                        {
+                            if (GetRightNthBit(j, numberOfDigits - k)) // if coef A is 1
+                            {
+                                outputFile.Write($"X{k + 1}");
+                            }
+                        }
+
+                        outputFile.WriteLine();
+                    }
+                }
             }
         }
 

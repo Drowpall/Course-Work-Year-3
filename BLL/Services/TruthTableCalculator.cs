@@ -27,6 +27,13 @@ namespace BLL.Services
             return truthTable;
         }
 
+        public IEnumerable<bool[]> CalculateTruthTableComplex(Dimensions dimensions, UserParameters userParameters)
+        {
+            var resultCols = new List<bool[]>(dimensions.DimensionResultColumns);
+            CalculateResultValuesComplex(resultCols, dimensions, userParameters);
+            return resultCols;
+        }
+
         private void CalculateVariableValues(TruthTable truthTable)
         {
             var rowValue = 0;
@@ -54,6 +61,74 @@ namespace BLL.Services
                 {
                     truthTable.ResultValues[i, j] = GetRightNthBit(operationResults[i], dimensions.DimensionResultColumns - j);
                 }
+            }
+        }
+
+        private void CalculateResultValuesComplex(ICollection<bool[]> resultCols, Dimensions dimensions, UserParameters userParameters)
+        {
+            for (var k = 0; k < dimensions.DimensionResultColumns; k++)     // For each result vector
+            {
+                var resultColVector = new bool[dimensions.DimensionRows];
+
+                for (var row = 0; row < dimensions.DimensionRows; row++)    // for each row
+                {
+                    var rowValuesVector = new bool[dimensions.DimensionVariablesColumns];
+                    var operandsValues = new int[userParameters.OperandsNumber];
+                    
+                    var valueCounter = 0;
+                    for (var j = 0; j < dimensions.DimensionVariablesColumns; j++)  // for each element in a row
+                    {
+                        rowValuesVector[j] = GetRightNthBit(row, dimensions.DimensionVariablesColumns - j);
+                    
+                        if (rowValuesVector[j])
+                        {
+                            operandsValues[valueCounter / userParameters.DigitCapacity] += Convert.ToInt32(Math.Pow(2, (userParameters.DigitCapacity - 1) - j % userParameters.DigitCapacity));
+                        }
+                        valueCounter++;
+                    }
+
+                    var rowOperationResult = 0;
+                    switch (userParameters.Operation)
+                    {
+                        case Operation.Sum:
+                            for (var i = 0; i < userParameters.OperandsNumber; i++)
+                            {
+                                rowOperationResult += operandsValues[i];
+                            }
+                            
+                            break;
+                        case Operation.Sum2:
+                            for (var i = 0; i < userParameters.OperandsNumber; i++)
+                            {
+                                rowOperationResult += operandsValues[i];
+                            }
+                            rowOperationResult %= userParameters.OperationModule;
+                            
+                            break;
+                        case Operation.Mult:
+                            for (var i = 0; i < userParameters.OperandsNumber; i++)
+                            {
+                                rowOperationResult *= operandsValues[i];
+                            }
+                            
+                            break;
+                        case Operation.Mult2:
+                            for (var i = 0; i < userParameters.OperandsNumber; i++)
+                            {
+                                rowOperationResult *= operandsValues[i];
+                            }
+                            rowOperationResult %= userParameters.OperationModule;
+                            
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    
+                    resultColVector[row] = GetRightNthBit(rowOperationResult, dimensions.DimensionResultColumns - k);
+                }
+ 
+
+                resultCols.Add(resultColVector);
             }
         }
 

@@ -19,15 +19,15 @@ namespace Course_Work_v1
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(numberOfOperands.Text, out int operandsNum) && operandsNum > 0)
+            if (int.TryParse(numberOfOperands.Text, out var operandsNum) && operandsNum > 0)
             {
                 operandsNumberRepository.SetOperandsNumber(operandsNum);
-                this.NavigationService.Navigate(kernel.Get<Page2>());
+                NavigationService?.Navigate(kernel.Get<Page2>());
             }
             else
             {
                 MessageBox.Show($"Invalid input. Given input: {numberOfOperands.Text}. Please specify an integer instead.");
-                this.NavigationService.Navigate(kernel.Get<Page1>());
+                NavigationService?.Navigate(kernel.Get<Page1>());
             }
         }
     }

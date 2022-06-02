@@ -19,15 +19,15 @@ namespace Course_Work_v1
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(operationModule.Text, out int opModule) && opModule > 1)
+            if (int.TryParse(operationModule.Text, out var opModule) && opModule > 1)
             {
                 operationModuleRepository.SetOperationModule(opModule);
-                this.NavigationService.Navigate(kernel.Get<Page3>());
+                NavigationService?.Navigate(kernel.Get<Page3>());
             }
             else
             {
                 MessageBox.Show($"Invalid input. Given input: {operationModule.Text}. Please specify an integer (>1) instead.");
-                this.NavigationService.Navigate(kernel.Get<Page2_5>());
+                NavigationService?.Navigate(kernel.Get<Page2_5>());
             }
         }
     }

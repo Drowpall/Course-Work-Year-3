@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using BLL.Contracts;
 using BLL.Services;
@@ -21,10 +22,21 @@ namespace Course_Work_v1
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ExtendedTruthTable);
-            calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ReducedTruthTable);
-            calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ModuleTruthTable);
-            this.NavigationService.Navigate(kernel.Get<Page4>());
+            try
+            {
+                calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ExtendedTruthTable);
+                calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ReducedTruthTable);
+                calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ModuleTruthTable);
+            }
+            catch(OutOfMemoryException)
+            {
+                MessageBox.Show("Out of RAM. Please select fewer operands or smaller digit capacity.");
+                calculationService.CleanAlgorithm();
+                NavigationService?.Navigate(kernel.Get<Page0>());
+                return;
+            }
+
+            NavigationService?.Navigate(kernel.Get<Page4>());
         }
 
     }
