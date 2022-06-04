@@ -4,7 +4,7 @@ using System;
 
 namespace DAL.Services
 {
-    public class Repository : IOperationRepository, IDigitCapacityRepository, IOperandsNumberRepository, IOperationModuleRepository
+    public class Repository : IOperationRepository, IDigitCapacityRepository, IOperandsNumberRepository, IOperationModuleRepository, IFileModeRepository
     {
         private Operation? operation;
 
@@ -13,6 +13,19 @@ namespace DAL.Services
         private int? operandsNumber;
 
         private int? operationModule;
+
+        private bool fileMode;
+
+        public bool TruthTableMode { get; set; }
+        public bool MinimalTxtMode { get; set; }
+        public bool ComplexTxtMode { get; set; }
+        public bool MinimalVMode { get; set; } = true;
+        public bool ShortestVMode { get; set; }
+        public bool ComplexVMode { get; set; } = true;
+        public bool MinimalCppMode { get; set; } = true;
+        public bool ShortestCppMode { get; set; }
+        public bool ComplexCppMode { get; set; } = true;
+        public bool TestBenchMode { get; set; }
 
         public Operation GetOperation()
         {

@@ -1,4 +1,5 @@
-﻿using BLL.Contracts;
+﻿using System.IO;
+using BLL.Contracts;
 using BLL.Contracts.IOutput;
 using BLL.Services;
 using BLL.Services.CalculateOperationResults;
@@ -7,6 +8,7 @@ using DAL.Contracts;
 using DAL.Services;
 using Ninject;
 using System.Windows;
+using BLL.Models;
 
 namespace Course_Work_v1
 {
@@ -22,7 +24,12 @@ namespace Course_Work_v1
             ConfigureDAL();
             ConfigureBLL();
             ConfigurePresentation();
-
+            Directory.CreateDirectory(Globals.DocPath);
+            var dirInfo = new DirectoryInfo(Globals.DocPath);
+            foreach (var file in dirInfo.GetFiles())
+            {
+               File.Delete(file.FullName); 
+            }
             ComposeObjects();
             Current.MainWindow.Show();
         }
@@ -30,6 +37,7 @@ namespace Course_Work_v1
         private void ConfigureDAL()
         {
             container.Bind<IOperationRepository, IDigitCapacityRepository, IOperandsNumberRepository, IOperationModuleRepository>().To<Repository>().InSingletonScope();
+            container.Bind<IFileModeRepository>().To<Repository>().InSingletonScope();
             container.Bind<ITruthTableRepository>().To<TruthTableRepository>().InSingletonScope();
         }
 
@@ -76,6 +84,7 @@ namespace Course_Work_v1
                                                                            container.Get<IDigitCapacityRepository>(),
                                                                            container.Get<IOperandsNumberRepository>(),
                                                                            container.Get<IOperationModuleRepository>(),
+                                                                           container.Get<IFileModeRepository>(),
                                                                            container.Get<ITruthTableCalculator>(),
                                                                            container.Get<IMatricesConstructor>(),
                                                                            container.Get<IPolynomialEvaluationService>(),

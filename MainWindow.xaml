@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Course_Work_v1"
         mc:Ignorable="d"
-        Title="Course_Work_v1.0" Height="450" Width="800">
+        Title="Course_Work_v1.0" Height="600" Width="800">
     <Frame x:Name="Main" NavigationUIVisibility="Hidden"/>
 </Window>

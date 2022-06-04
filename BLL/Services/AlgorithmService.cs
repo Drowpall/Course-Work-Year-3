@@ -19,6 +19,7 @@ namespace BLL.Services
             IDigitCapacityRepository digitCapacityRepository, 
             IOperandsNumberRepository operandsNumberRepository, 
             IOperationModuleRepository operationModuleRepository, 
+            IFileModeRepository fileModeRepository,
             ITruthTableCalculator truthTableCalculator, 
             IMatricesConstructor matricesConstructor,
             IPolynomialEvaluationService polynomialEvaluationService,
@@ -34,6 +35,7 @@ namespace BLL.Services
             DigitCapacityRepository = digitCapacityRepository;
             OperandsNumberRepository = operandsNumberRepository;
             OperationModuleRepository = operationModuleRepository;
+            FileModeRepository = fileModeRepository;
             TruthTableCalculator = truthTableCalculator;
             MatricesConstructor = matricesConstructor;
             PolynomialEvaluationService = polynomialEvaluationService;
@@ -49,6 +51,7 @@ namespace BLL.Services
         public IDigitCapacityRepository DigitCapacityRepository { get; set; }
         public IOperandsNumberRepository OperandsNumberRepository { get; set; }
         public IOperationModuleRepository OperationModuleRepository { get; set; }
+        public IFileModeRepository FileModeRepository { get; set; }
         public ITruthTableCalculator TruthTableCalculator { get; set; }
         public IMatricesConstructor MatricesConstructor { get; set; }
         public IPolynomialEvaluationService PolynomialEvaluationService { get; set; }
@@ -107,27 +110,30 @@ namespace BLL.Services
 
             #region ComplexPolynomial
             
-            if (userParameters.DigitCapacity * userParameters.OperandsNumber >= 10 && !IsComplexGenerated)
+            if (userParameters.DigitCapacity * userParameters.OperandsNumber >= 10)
             {
-                using (var outputFile = File.CreateText(Globals.PolynomialsComplex))
-                {
-                    OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, ResultCols, userParameters, Dimensions);
-                    Thread.Sleep(500);
-                    Process.Start(Globals.PolynomialsComplex);
-                }
+                if (IsComplexGenerated) return;
                 
-                using (var outputFile = File.CreateText(Globals.PolynomialsComplexHdl))
+                using (var outputFile = File.CreateText(Globals.DocPath + Globals.PolynomialsComplex))
+                {
+                    OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, ResultCols, userParameters,
+                        Dimensions);
+                    Thread.Sleep(500);
+                    if (FileModeRepository.ComplexTxtMode) Process.Start(Globals.DocPath + Globals.PolynomialsComplex);
+                }
+
+                using (var outputFile = File.CreateText(Globals.DocPath + Globals.PolynomialsComplexHdl))
                 {
                     OutputPolynomialsService.OutputComplexPolynomialsHdl(outputFile, ResultCols, userParameters, Dimensions);
                     Thread.Sleep(500);
-                    Process.Start(Globals.PolynomialsComplexHdl);
+                    if (FileModeRepository.ComplexVMode) Process.Start(Globals.DocPath + Globals.PolynomialsComplexHdl);
                 }
                 
-                using (var outputFile = File.CreateText(Globals.PolynomialsComplexCpp))
+                using (var outputFile = File.CreateText(Globals.DocPath + Globals.PolynomialsComplexCpp))
                 {
                     OutputPolynomialsService.OutputComplexPolynomialsC(outputFile, ResultCols, userParameters, Dimensions);
                     Thread.Sleep(500);
-                    Process.Start(Globals.PolynomialsComplexCpp);
+                    if (FileModeRepository.ComplexCppMode) Process.Start(Globals.DocPath + Globals.PolynomialsComplexCpp);
                 }
 
                 IsComplexGenerated = true;
@@ -154,22 +160,22 @@ namespace BLL.Services
             {
                 case AlgorithmOperation.ExtendedTruthTable:
                 {
-                    using (var outputFile = File.CreateText(Globals.TruthTableExtended))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.TruthTableExtended))
                     {
                         OutputExtendedService.OutputExtendedTruthTable(outputFile, TruthTable, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.TruthTableExtended);
+                        if (FileModeRepository.TruthTableMode) Process.Start(Globals.DocPath + Globals.TruthTableExtended);
                     }
                     
                     break;
                 }
                 case AlgorithmOperation.ReducedTruthTable:
                 {
-                    using (var outputFile = File.CreateText(Globals.TruthTableReduced))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.TruthTableReduced))
                     {
                         OutputReducedService.OutputReducedTruthTable(outputFile, TruthTable, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.TruthTableReduced);
+                        if (FileModeRepository.TruthTableMode) Process.Start(Globals.DocPath + Globals.TruthTableReduced);
                     }
                     
                     break;
@@ -179,11 +185,11 @@ namespace BLL.Services
                     if (userParameters.OperationModule == -1) return;
             
                     {
-                        using (var outputFile = new StreamWriter(Globals.TruthTableModule))
+                        using (var outputFile = new StreamWriter(Globals.DocPath + Globals.TruthTableModule))
                         {
                             OutputModuleService.OutputModuleTruthTable(outputFile, TruthTable, userParameters, Dimensions);
                             Thread.Sleep(500);
-                            Process.Start(Globals.TruthTableModule);
+                            if (FileModeRepository.TruthTableMode) Process.Start(Globals.DocPath + Globals.TruthTableModule);
                         }
                     }
 
@@ -191,89 +197,89 @@ namespace BLL.Services
                 }
                 case AlgorithmOperation.ShortestPolynomials:
                 {
-                    using (var outputFile = File.CreateText(Globals.ShortestPolynomials))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.ShortestPolynomials))
                     {
                         OutputPolynomialsService.OutputShortestPolynomialsText(outputFile, Matrices, userParameters, Dimensions);
                         outputFile.WriteLine();
                         OutputPolynomialsService.OutputMinimalPolynomialsText(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.ShortestPolynomials);
+                        if (FileModeRepository.MinimalTxtMode) Process.Start(Globals.DocPath + Globals.ShortestPolynomials);
                     }
                     
-                    using (var outputFile = File.CreateText(Globals.PolynomialsComplex))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.PolynomialsComplex))
                     {
                         OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, ResultCols, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.PolynomialsComplex);
+                        if (FileModeRepository.ComplexTxtMode) Process.Start(Globals.DocPath + Globals.PolynomialsComplex);
                     }
 
                     break;
                 }
                 case AlgorithmOperation.MinimalPolyHdl:
                 {
-                    using (var outputFile = File.CreateText(Globals.MinimalPolynomialsHdl))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.MinimalPolynomialsHdl))
                     {
                         OutputPolynomialsService.OutputMinimalPolynomialsHdl(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.MinimalPolynomialsHdl);
+                        if (FileModeRepository.MinimalVMode) Process.Start(Globals.DocPath + Globals.MinimalPolynomialsHdl);
                     }
 
-                    using (var outputFile = File.CreateText(Globals.PolynomialsComplexHdl))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.PolynomialsComplexHdl))
                     {
                         OutputPolynomialsService.OutputComplexPolynomialsHdl(outputFile, ResultCols, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.PolynomialsComplexHdl);
+                        if (FileModeRepository.ComplexVMode) Process.Start(Globals.DocPath + Globals.PolynomialsComplexHdl);
                     }
                     
                     break;
                 }
                 case AlgorithmOperation.ShortestPolyHdl:
                 {
-                    using (var outputFile = File.CreateText(Globals.ShortestPolynomialsHdl))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.ShortestPolynomialsHdl))
                     {
                         OutputPolynomialsService.OutputShortestPolynomialsHdl(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.ShortestPolynomialsHdl);
+                        if (FileModeRepository.ShortestVMode) Process.Start(Globals.DocPath + Globals.ShortestPolynomialsHdl);
                     }
                     
                     break;
                 }
                 case AlgorithmOperation.MinimalPolyCpp:
                 {
-                    using (var outputFile = File.CreateText(Globals.MinimalPolynomialsCpp))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.MinimalPolynomialsCpp))
                     {
                         OutputPolynomialsService.OutputMinimalPolynomialsC(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.MinimalPolynomialsCpp);
+                        if (FileModeRepository.MinimalCppMode) Process.Start(Globals.DocPath + Globals.MinimalPolynomialsCpp);
                     }
                     
-                    using (var outputFile = File.CreateText(Globals.PolynomialsComplexCpp))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.PolynomialsComplexCpp))
                     {
                         OutputPolynomialsService.OutputComplexPolynomialsC(outputFile, ResultCols, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.PolynomialsComplexCpp);
+                        if (FileModeRepository.ComplexCppMode) Process.Start(Globals.DocPath + Globals.PolynomialsComplexCpp);
                     }
                     
                     break;
                 }                
                 case AlgorithmOperation.ShortestPolyCpp:
                 {
-                    using (var outputFile = File.CreateText(Globals.ShortestPolynomialsCpp))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.ShortestPolynomialsCpp))
                     {
                         OutputPolynomialsService.OutputShortestPolynomialsC(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.ShortestPolynomialsCpp);
+                        if (FileModeRepository.ShortestCppMode) Process.Start(Globals.DocPath + Globals.ShortestPolynomialsCpp);
                     }
                     
                     break;
                 }
                 case AlgorithmOperation.TestBenchCpp:
                 {
-                    using (var outputFile = File.CreateText(Globals.TestBenchCpp))
+                    using (var outputFile = File.CreateText(Globals.DocPath + Globals.TestBenchCpp))
                     {
                         OutputPolynomialsService.OutputTestBench(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
-                        Process.Start(Globals.TestBenchCpp);
+                        if (FileModeRepository.TestBenchMode) Process.Start(Globals.DocPath + Globals.TestBenchCpp);
                     }
                     
                     break;

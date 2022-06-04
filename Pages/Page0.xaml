@@ -10,47 +10,72 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="20"/>
-            </Grid.RowDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="1" Grid.Row="1" FontSize="65" FontFamily="Segoe UI Light" 
+        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="65" FontFamily="Segoe UI Light" 
                    Text="Please, select an Operation" Grid.ColumnSpan="4"
                    Margin="0,0,0,10" TextAlignment="Center"/>
-            <RadioButton x:Name="operation_sum2" Content="Mod addition" ClickMode="Press" 
+        <RadioButton x:Name="operation_sum2" Content="Mod addition" ClickMode="Press" 
                      Grid.Column="1" Grid.Row="2"
                      Margin="5,5,5,5" Checked="operation_sum2_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
-            <RadioButton x:Name="operation_sum" Content="Addition" ClickMode="Press" 
+        <RadioButton x:Name="operation_sum" Content="Addition" ClickMode="Press" 
                      Grid.Column="1" Grid.Row="3"
                      Margin="5,5,5,5" Checked="operation_sum_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
-            <RadioButton x:Name="operation_mult" Content="Multiplication" ClickMode="Press" 
+        <RadioButton x:Name="operation_mult" Content="Multiplication" ClickMode="Press" 
                      Grid.Column="1" Grid.Row="4"
                      Margin="5,5,5,5" Checked="operation_mult_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
-            <RadioButton x:Name="operation_mult2" Content="Mod Multiplication" ClickMode="Press" 
+        <RadioButton x:Name="operation_mult2" Content="Mod Multiplication" ClickMode="Press" 
                      Grid.Column="1" Grid.Row="5"
                      Margin="5,5,5,5" Checked="operation_mult2_Checked" GroupName="Operation" FontSize="22" FontFamily="Segoe UI Light"/>
-            <Button x:Name="SubmitButton" Width="115" Height="25" Content="Sumbit"
+        <Button x:Name="SubmitButton" Width="115" Height="25" Content="Sumbit"
                 Grid.Column="1" Grid.Row="6"
-                Margin="0,0,0,0" FontFamily="SimSun" FontSize="16" 
+                Margin="86,0,0,22" FontFamily="SimSun" FontSize="16" 
                 Click="SubmitButton_Click"/>
-            <TextBlock Grid.Column="1" Grid.Row="6" 
+        <TextBlock Grid.Column="1" Grid.Row="6" 
                    FontFamily="Segoe UI Light" FontSize="20" 
                    Text="Step 1" HorizontalAlignment="Left"
                    VerticalAlignment="Bottom"
                    Margin="5,0,0,5"/>
-        </Grid>
+        <TextBlock Grid.Column="4" Grid.Row="1" 
+                   FontFamily="Segoe UI Light" FontSize="20" 
+                   Text="Open text files?" HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   Margin="206,0,0,12" Grid.RowSpan="2"/>
+        <CheckBox x:Name="FileOpenCheck" IsChecked="False" Content="Truth tables" Grid.Column="4" Grid.Row="1"
+                         Margin="350,90,10,10" Checked="truthtable_checked" Unchecked="truthtable_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy" IsChecked="False" Content="Minimal.txt" Grid.Column="4" Grid.Row="1"
+                        Margin="350,120,10,10" Checked="minimaltxt_checked" Unchecked="minimaltxt_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy1" IsChecked="False" Content="Complex.txt" Grid.Column="4" Grid.Row="1"
+                        Margin="350,150,10,10" Checked="complextxt_checked" Unchecked="complextxt_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy2" IsChecked="False" Content="Minimal.v" Grid.Column="4" Grid.Row="1"
+                        Margin="350,180,10,10" Checked="minimalv_checked" Unchecked="minimalv_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy3" IsChecked="False" Content="Shortest.v" Grid.Column="4" Grid.Row="1"
+                        Margin="350,210,10,10" Checked="shortestv_checked" Unchecked="shortestv_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy4" IsChecked="False" Content="Complex.v" Grid.Column="4" Grid.Row="1"
+                        Margin="350,240,10,10" Checked="complexv_checked" Unchecked="complexv_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy5" IsChecked="False" Content="Minimal.cpp" Grid.Column="4" Grid.Row="1"
+                        Margin="350,270,10,10" Checked="minimalcpp_checked" Unchecked="minimalcpp_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy6" IsChecked="False" Content="Shortest.cpp" Grid.Column="4" Grid.Row="1"
+                        Margin="350,300,10,10" Checked="shortestcpp_checked" Unchecked="shortestcpp_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy7" IsChecked="False" Content="Complex.cpp" Grid.Column="4" Grid.Row="1"
+                        Margin="350,330,10,10" Checked="complexcpp_checked" Unchecked="complexcpp_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="5"/>
+        <CheckBox x:Name="FileOpenCheck_Copy8" IsChecked="False" Content="Testbench" Grid.Column="4" Grid.Row="1"
+                        Margin="350,360,10,10" Checked="testbench_checked" Unchecked="testbench_unchecked" FontSize="18" FontFamily="Segoe UI Light" Grid.RowSpan="6"/>
+    </Grid>
 </Page>

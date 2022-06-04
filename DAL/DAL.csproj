@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IDigitCapacityRepository.cs" />
+    <Compile Include="Contracts\IFileModeRepository.cs" />
     <Compile Include="Contracts\IOperandsNumberRepository.cs" />
     <Compile Include="Contracts\IOperationModuleRepository.cs" />
     <Compile Include="Contracts\IOperationRepository.cs" />

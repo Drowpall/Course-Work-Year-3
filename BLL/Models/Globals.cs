@@ -2,7 +2,7 @@
 {
     public static class Globals
     {
-        public const string DocPath = "D:\\Work\\CSharp\\WPF\\Course_Work_v1\\TextOutput\\";
+        public const string DocPath = @".\TextOutput\";
         public const string DNFpresentation = "DNF.txt";
         
         public const string TruthTableExtended = "TruthTable0.txt";

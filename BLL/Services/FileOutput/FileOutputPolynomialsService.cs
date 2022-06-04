@@ -546,7 +546,7 @@ namespace BLL.Services.FileOutput
             var vectorNumber = 0;
             foreach (var vector in matrices.shortestPolynomials)
             {
-                outputFile.Write($"\tOUT{vectorNumber + 1} = ");
+                outputFile.Write($"\tOUT{vectorNumber + 1} = (");
                 var numberOfSuitablePolynomials = 0;
 
                 var negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
@@ -568,7 +568,7 @@ namespace BLL.Services.FileOutput
 
                     if (numberOfSuitablePolynomials != 0)
                     {
-                        outputFile.Write(" ^ ");
+                        outputFile.Write(") ^ (");
                     }
 
                     for (var i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
@@ -602,7 +602,7 @@ namespace BLL.Services.FileOutput
                     numberOfSuitablePolynomials++;
                 }
 
-                outputFile.Write(";");
+                outputFile.Write(");");
                 outputFile.WriteLine("\t");
                 vectorNumber++;
             }
@@ -645,7 +645,7 @@ namespace BLL.Services.FileOutput
             var vectorNumber = 0;
             foreach (var vector in matrices.minimalPolynomials)
             {
-                outputFile.Write($"\tOUT{vectorNumber + 1} = ");
+                outputFile.Write($"\tOUT{vectorNumber + 1} = (");
                 var numberOfSuitablePolynomials = 0;
 
                 var negativePos = new int[userParameters.OperandsNumber * userParameters.DigitCapacity];
@@ -667,7 +667,7 @@ namespace BLL.Services.FileOutput
 
                     if (numberOfSuitablePolynomials != 0)
                     {
-                        outputFile.Write(" ^ ");
+                        outputFile.Write(") ^ (");
                     }
 
                     for (var i = 0; i < userParameters.OperandsNumber * userParameters.DigitCapacity; i++)
@@ -701,7 +701,7 @@ namespace BLL.Services.FileOutput
                     numberOfSuitablePolynomials++;
                 }
 
-                outputFile.Write(";");
+                outputFile.Write(");");
                 outputFile.WriteLine("\t");
                 vectorNumber++;
             }
@@ -772,7 +772,7 @@ namespace BLL.Services.FileOutput
                 outputFile.WriteLine(");");
                 outputFile.WriteLine();
             }
-            outputFile.WriteLine("return 0;");
+            outputFile.WriteLine("return;");
             outputFile.WriteLine("}");
         }
         
