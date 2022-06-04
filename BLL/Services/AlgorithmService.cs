@@ -70,6 +70,7 @@ namespace BLL.Services
         private TruthTable TruthTable { get; set; }
         private Matrices Matrices { get; set; }
         private IEnumerable<bool[]> ResultCols { get; set; }
+        private bool IsComplexGenerated { get; set; }
 
         public enum AlgorithmOperation
         {
@@ -98,22 +99,44 @@ namespace BLL.Services
             {
                 Dimensions = DimensionsService.GetDimensions(userParameters);
             }
-            
-            if (userParameters.DigitCapacity * userParameters.OperandsNumber >= 10)
+
+            if (ResultCols == null)
             {
-                if (ResultCols != null) return;
-                
                 ResultCols = TruthTableCalculator.CalculateTruthTableComplex(Dimensions, userParameters);
-                
+            }
+
+            #region ComplexPolynomial
+            
+            if (userParameters.DigitCapacity * userParameters.OperandsNumber >= 10 && !IsComplexGenerated)
+            {
                 using (var outputFile = File.CreateText(Globals.PolynomialsComplex))
                 {
                     OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, ResultCols, userParameters, Dimensions);
                     Thread.Sleep(500);
                     Process.Start(Globals.PolynomialsComplex);
                 }
+                
+                using (var outputFile = File.CreateText(Globals.PolynomialsComplexHdl))
+                {
+                    OutputPolynomialsService.OutputComplexPolynomialsHdl(outputFile, ResultCols, userParameters, Dimensions);
+                    Thread.Sleep(500);
+                    Process.Start(Globals.PolynomialsComplexHdl);
+                }
+                
+                using (var outputFile = File.CreateText(Globals.PolynomialsComplexCpp))
+                {
+                    OutputPolynomialsService.OutputComplexPolynomialsC(outputFile, ResultCols, userParameters, Dimensions);
+                    Thread.Sleep(500);
+                    Process.Start(Globals.PolynomialsComplexCpp);
+                }
 
+                IsComplexGenerated = true;
+                
                 return;
             }
+            
+            #endregion ComplexPolynomial
+            
             
             if (TruthTable == null)
             {
@@ -176,6 +199,13 @@ namespace BLL.Services
                         Thread.Sleep(500);
                         Process.Start(Globals.ShortestPolynomials);
                     }
+                    
+                    using (var outputFile = File.CreateText(Globals.PolynomialsComplex))
+                    {
+                        OutputPolynomialsService.OutputComplexPolynomialsText(outputFile, ResultCols, userParameters, Dimensions);
+                        Thread.Sleep(500);
+                        Process.Start(Globals.PolynomialsComplex);
+                    }
 
                     break;
                 }
@@ -186,6 +216,13 @@ namespace BLL.Services
                         OutputPolynomialsService.OutputMinimalPolynomialsHdl(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
                         Process.Start(Globals.MinimalPolynomialsHdl);
+                    }
+
+                    using (var outputFile = File.CreateText(Globals.PolynomialsComplexHdl))
+                    {
+                        OutputPolynomialsService.OutputComplexPolynomialsHdl(outputFile, ResultCols, userParameters, Dimensions);
+                        Thread.Sleep(500);
+                        Process.Start(Globals.PolynomialsComplexHdl);
                     }
                     
                     break;
@@ -208,6 +245,13 @@ namespace BLL.Services
                         OutputPolynomialsService.OutputMinimalPolynomialsC(outputFile, Matrices, userParameters, Dimensions);
                         Thread.Sleep(500);
                         Process.Start(Globals.MinimalPolynomialsCpp);
+                    }
+                    
+                    using (var outputFile = File.CreateText(Globals.PolynomialsComplexCpp))
+                    {
+                        OutputPolynomialsService.OutputComplexPolynomialsC(outputFile, ResultCols, userParameters, Dimensions);
+                        Thread.Sleep(500);
+                        Process.Start(Globals.PolynomialsComplexCpp);
                     }
                     
                     break;
@@ -236,7 +280,7 @@ namespace BLL.Services
                 }
                 default:
                 {
-                    throw new ArgumentOutOfRangeException(nameof(selectOutputFormat), selectOutputFormat, null);
+                    return;
                 }
             }
         }

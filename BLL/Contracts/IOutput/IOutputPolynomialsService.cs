@@ -19,8 +19,14 @@ namespace BLL.Contracts.IOutput
         void OutputComplexPolynomialsText(StreamWriter outputFile, IEnumerable<bool[]> resultCols, UserParameters userParameters,
             Dimensions dimensions);
         
+        void OutputComplexPolynomialsHdl(StreamWriter outputFile, IEnumerable<bool[]> resultCols, UserParameters userParameters,
+            Dimensions dimensions);
         void OutputShortestPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
         void OutputMinimalPolynomialsHdl(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
+
+        void OutputComplexPolynomialsC(StreamWriter outputFile, IEnumerable<bool[]> resultCols,
+            UserParameters userParameters,
+            Dimensions dimensions);
         void OutputMinimalPolynomialsC(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
         void OutputShortestPolynomialsC(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
         void OutputTestBench(StreamWriter outputFile, Matrices matrices, UserParameters userParameters, Dimensions dimensions);
