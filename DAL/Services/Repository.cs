@@ -19,12 +19,12 @@ namespace DAL.Services
         public bool TruthTableMode { get; set; }
         public bool MinimalTxtMode { get; set; }
         public bool ComplexTxtMode { get; set; }
-        public bool MinimalVMode { get; set; } = true;
+        public bool MinimalVMode { get; set; }
         public bool ShortestVMode { get; set; }
-        public bool ComplexVMode { get; set; } = true;
-        public bool MinimalCppMode { get; set; } = true;
+        public bool ComplexVMode { get; set; }
+        public bool MinimalCppMode { get; set; }
         public bool ShortestCppMode { get; set; }
-        public bool ComplexCppMode { get; set; } = true;
+        public bool ComplexCppMode { get; set; }
         public bool TestBenchMode { get; set; }
 
         public Operation GetOperation()

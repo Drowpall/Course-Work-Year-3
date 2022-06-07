@@ -26,7 +26,6 @@ namespace Course_Work_v1
             {
                 calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ExtendedTruthTable);
                 calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ReducedTruthTable);
-                calculationService.AlgorithmMain(AlgorithmService.AlgorithmOperation.ModuleTruthTable);
             }
             catch(OutOfMemoryException)
             {
