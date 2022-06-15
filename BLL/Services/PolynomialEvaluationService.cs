@@ -62,7 +62,7 @@ namespace BLL.Services
 
         private void SelectShortestPolynomials(Matrices matrices, TruthTable truthTable)
         {
-            var amountInEveryRow = new int[matrices.SquareDimensions];
+            var amountInEveryRow = new int[truthTable.DimensionResultColumns, matrices.SquareDimensions];
             var count = 0;
 
             for (var i = 0; i < truthTable.DimensionResultColumns; i++)
@@ -81,14 +81,14 @@ namespace BLL.Services
                         numberOfOnes = count;
                         count = 0;
                     }
-                    amountInEveryRow[j] = numberOfOnes;
+                    amountInEveryRow[i,j] = numberOfOnes;
                 }
             }
 
 
             for (var i = 0; i < truthTable.DimensionResultColumns; i++)
             {
-                var minIndex = Array.IndexOf(amountInEveryRow, amountInEveryRow.Min());
+                var minIndex = Array.IndexOf(GetRow(amountInEveryRow, i), GetRow(amountInEveryRow, i).Min());
                 matrices.shortestPolynomials.Add(GetRow(matrices.MatricesM[i], minIndex));
                 matrices.numbersOfLinesShortest.Add(minIndex);
             }

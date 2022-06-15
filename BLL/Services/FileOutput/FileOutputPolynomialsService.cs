@@ -217,7 +217,7 @@ namespace BLL.Services.FileOutput
 
             for (var i = 0; i < resultCols.Count(); i++) // for reach S[i]
             {
-                outputFile.WriteLine($"S{i + 1}:");
+                outputFile.WriteLine($"S{i}:");
                 outputFile.Write("(");
                 var isFirstPolynomial = true;
                 for (var j = 0; j < dimensions.DimensionRows; j++) // for each row
@@ -233,7 +233,7 @@ namespace BLL.Services.FileOutput
                             if (GetRightNthBit(j, numberOfDigits - k)) // if coef A is 1
                             {
                                 if (!isFirstVariable) outputFile.Write(" & ");
-                                outputFile.Write($"X{k + 1}");
+                                outputFile.Write($"X{k}");
                                 isFirstVariable = false;
                             }
                         }
@@ -461,12 +461,12 @@ namespace BLL.Services.FileOutput
 
             for (var i = 0; i < numberOfInVars; i++)
             {
-                outputFile.WriteLine($"\tinput wire IN{i + 1},");
+                outputFile.WriteLine($"\tinput wire IN{i},");
             }
 
             for (var j = 0; j < numberOfOutVars - 1; j++)
             {
-                outputFile.WriteLine($"\toutput wire OUT{j + 1},");
+                outputFile.WriteLine($"\toutput wire OUT{j},");
             }
 
             outputFile.WriteLine($"\toutput wire OUT{numberOfOutVars}");
@@ -477,7 +477,7 @@ namespace BLL.Services.FileOutput
 
             for (var i = 0; i < resultCols.Count(); i++) // for reach S[i]
             {
-                outputFile.WriteLine($"assign OUT{i + 1} =");
+                outputFile.WriteLine($"assign OUT{i} =");
                 outputFile.Write("(");
                 var isFirstPolynomial = true;
                 for (var j = 0; j < dimensions.DimensionRows; j++) // for each row
@@ -493,7 +493,7 @@ namespace BLL.Services.FileOutput
                             if (GetRightNthBit(j, numberOfDigits - k)) // if coef A is 1
                             {
                                 if (!isFirstVariable) outputFile.Write(" & ");
-                                outputFile.Write($"IN{k + 1}");
+                                outputFile.Write($"IN{k}");
                                 isFirstVariable = false;
                             }
                         }
@@ -729,12 +729,12 @@ namespace BLL.Services.FileOutput
             for (var i = 0; i < numberOfInVars; i++)
             {
                 if (i != 0) outputFile.Write(", ");
-                outputFile.Write($"bool IN{i + 1}");
+                outputFile.Write($"bool IN{i}");
             }
 
             for (var j = 0; j < numberOfOutVars; j++)
             {
-                outputFile.Write($", bool& OUT{j + 1}");
+                outputFile.Write($", bool& OUT{j}");
 
                 if (j != numberOfOutVars - 1) continue;
 
@@ -746,7 +746,7 @@ namespace BLL.Services.FileOutput
 
             for (var i = 0; i < resultCols.Count(); i++) // for reach S[i]
             {
-                outputFile.WriteLine($"OUT{i + 1} = ");
+                outputFile.WriteLine($"OUT{i} = ");
                 outputFile.Write("\t(");
                 var isFirstPolynomial = true;
                 for (var j = 0; j < dimensions.DimensionRows; j++) // for each row
@@ -762,7 +762,7 @@ namespace BLL.Services.FileOutput
                             if (GetRightNthBit(j, numberOfDigits - k)) // if coef A is 1
                             {
                                 if (!isFirstVariable) outputFile.Write(" & ");
-                                outputFile.Write($"IN{k + 1}");
+                                outputFile.Write($"IN{k}");
                                 isFirstVariable = false;
                             }
                         }

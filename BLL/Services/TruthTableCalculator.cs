@@ -31,7 +31,7 @@ namespace BLL.Services
         {
             var resultCols = new List<bool[]>(dimensions.DimensionResultColumns);
             CalculateResultValuesComplex(resultCols, dimensions, userParameters);
-            return resultCols;
+            return CalculateZhegalkinVectors(resultCols);
         }
 
         private void CalculateVariableValues(TruthTable truthTable)
@@ -134,6 +134,40 @@ namespace BLL.Services
             }
         }
 
+        private ICollection<bool[]> CalculateZhegalkinVectors(ICollection<bool[]> inputVector)
+        {
+            var resultVectors = new List<bool[]>();
+            var inputVectors = (List<bool[]>) inputVector;
+            
+            for (var vector = 0; vector < inputVector.Count; vector++)  // for each S[x]
+            {
+                var baseVector = inputVectors[vector];
+                var resultVector = new bool[baseVector.Length];
+                var triangle = new bool[baseVector.Length, baseVector.Length];
+                
+                for (var i = 0; i < baseVector.Length; i++)
+                {
+                    triangle[0, i] = baseVector[i];
+                }
+
+                resultVector[0] = triangle[0, 0];
+
+                for (var row = 1; row < baseVector.Length; row++)
+                {
+                    for (var elementIndex = 0; elementIndex < baseVector.Length - row; elementIndex++)
+                    {
+                        triangle[row, elementIndex] =
+                            triangle[row - 1, elementIndex] ^ triangle[row - 1, elementIndex + 1];
+                    }
+
+                    resultVector[row] = triangle[row, 0];
+                }
+                
+                resultVectors.Add(resultVector);
+            }
+
+            return resultVectors;
+        }
         private static int[,] CalculateOperationValues(TruthTable truthTable, Dimensions dimensions, UserParameters userParameters)
         {
             var operationValues = new int[dimensions.DimensionRows, userParameters.OperandsNumber];
